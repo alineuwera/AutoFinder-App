@@ -1,8 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -11,7 +13,7 @@ export default function LoginPage() {
     // Simulate login (replace with API call)
     if (email === "test@example.com" && password === "password123") {
       localStorage.setItem("isAuthenticated", "true");
-      window.location.href = "/";
+      window.location.href = "/dashboard/user"; // Redirect to user dashboard
     } else {
       alert("Invalid credentials");
     }

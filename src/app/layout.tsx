@@ -29,11 +29,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <NavigationBar />
+        {/* <NavigationBar /> */}
         {/* <div className="container mx-auto px-4 py-8">
         </div> */}
         {children}
-        <Footer />
+        {/* <Footer /> */}
         
       </body>
     </html>

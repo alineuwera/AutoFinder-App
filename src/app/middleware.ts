@@ -12,5 +12,6 @@ export function middleware(request: any) {
 }
 
 export const config = {
-  matcher: ["/"],
+  matcher: ["/", "/auth/login", "/auth/register", "/dashboard/:path*"]
+  // Apply middleware to the root path and auth paths
 };
