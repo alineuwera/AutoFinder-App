@@ -15,7 +15,7 @@ const NavigationBar: React.FC = () => {
       {/* Logo */}
       <div className="flex items-center gap-2">
         <Search className="text-white bg-red-500 font-bold" />
-        <h2 className="text-xl font-bold">Finder</h2>
+        <h2 className="text-xl font-bold text-black">Finder</h2>
       </div>
 
       {/* Navigation Links */}

@@ -9,7 +9,7 @@ import Footer from "@/components/Footer";
 export default function HomePage() {
   return (
     <div className="text-white">
-        <NavigationBar />
+      <NavigationBar />
       <div className="bg-teal-700 bg-opacity-50 p-6">
         <div className="flex items-center justify-between mb-4 mx-auto py-15 mt-20 px-4 sm:px-6 lg:px-8  max-w-7xl">
           <HeroSearchForm />
@@ -17,13 +17,11 @@ export default function HomePage() {
             Easy way to find the right car
           </h1>
         </div>
-       
       </div>
-      <CarTypesSection  /> 
-      <TopOffersSection  />
-      <BrandsSection  />
-        <Footer />
+      <CarTypesSection />
+      <TopOffersSection />
+      <BrandsSection />
+      <Footer />
     </div>
-    
   );
 }
