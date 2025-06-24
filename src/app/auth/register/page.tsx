@@ -23,8 +23,8 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8 bg-teal-600 p-6 rounded-lg shadow-md mt-15">
+    <div className="min-h-screen bg-[#267180] opacity-85 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8 bg-[#307685] p-6 rounded-lg shadow-md mt-15">
         <div>
           <h2 className="text-center text-3xl font-bold text-white">Create Account</h2>
           <p className="mt-2 text-center text-sm text-gray-200">
@@ -90,10 +90,10 @@ export default function RegisterPage() {
             />
           </div>
           <div>
-            <label htmlFor="role" className="block text-sm font-medium text-white">
-              Role
-            </label>
-            <select
+              {/* <label htmlFor="role" className="block text-sm font-medium text-white">
+                Role
+              </label> */}
+            {/* <select
               id="role"
               name="role"
               value={role}
@@ -103,7 +103,7 @@ export default function RegisterPage() {
               <option value="buyer">Buyer</option>
               <option value="seller">Seller</option>
               <option value="admin">Admin</option>
-            </select>
+            </select> */}
           </div>
           <div>
             <label htmlFor="password" className="block text-sm font-medium text-white">

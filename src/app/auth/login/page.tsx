@@ -11,17 +11,18 @@ export default function LoginPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Simulate login (replace with API call)
-    if (email === "test@example.com" && password === "password123") {
+    if (email === "test@example.com" && password === "aline123") {
       localStorage.setItem("isAuthenticated", "true");
-      window.location.href = "/dashboard/user"; // Redirect to user dashboard
+      alert("Login successful!");
+      window.location.href = "/SellCar"; // 
     } else {
       alert("Invalid credentials");
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8 bg-teal-600 p-6 rounded-lg shadow-md">
+    <div className="min-h-screen bg-[#267180] opacity-85 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8 bg-[#307685]  p-6 rounded-lg shadow-md">
         <div>
           <h2 className="text-center text-3xl font-bold text-white">Sign In</h2>
           <p className="mt-2 text-center text-sm text-gray-200">
