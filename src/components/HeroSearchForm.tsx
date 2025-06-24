@@ -5,7 +5,7 @@ import { ChevronRight, Search } from "lucide-react";
 
 const HeroSearchForm: React.FC = () => {
   return (
-    <div className="bg-teal-600 bg-opacity-50 p-6 rounded-2xl w-full  mt-10  max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="bg-[#307685] p-6 rounded-2xl w-full  mt-10  max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       {/* Tabs */}
       <div className="flex gap-2 mb-6 ">
         <button className="text-white border px-4  py-2 rounded-full">All</button>
@@ -39,12 +39,12 @@ const HeroSearchForm: React.FC = () => {
           <input
             type="number"
             placeholder="$ Price from"
-            className="p-2 rounded-lg border border-gray-300 bg-white text-gray-400 w-full"
+            className="p-2 rounded-lg border border-gray-300 bg-white text-gray-600 w-full"
           />
           <input
             type="number"
             placeholder="$ Price to"
-            className="p-2 rounded-lg border border-gray-300 bg-white text-gray-400 w-full"
+            className="p-2 rounded-lg border border-gray-300 bg-white text-gray-600 w-full"
           />
         </div>
       </div>
