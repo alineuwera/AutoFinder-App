@@ -1,6 +1,6 @@
 "use client";
 
-import { Sun, User, Menu, Search, ChevronDown } from "lucide-react";
+import { Sun, User, Menu, ChevronDown } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { useRouter } from "next/navigation";
@@ -11,7 +11,6 @@ const NavigationBar: React.FC = () => {
   const handleSellClick = () => {
     router.push("/auth/login");
   };
-  const isSignedIn = true;
 
   return (
     <nav className="flex items-center justify-between px-8 py-4 shadow bg-white fixed top-0 left-0 right-0 z-50">
