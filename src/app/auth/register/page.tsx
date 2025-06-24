@@ -9,7 +9,6 @@ export default function RegisterPage() {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [role, setRole] = useState("buyer");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
