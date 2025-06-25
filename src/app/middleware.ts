@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export function middleware(request: any) {
+export function middleware(request: NextRequest) {
   const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
   const { pathname } = request.nextUrl;
 
@@ -12,5 +12,6 @@ export function middleware(request: any) {
 }
 
 export const config = {
-  matcher: ["/"],
+  matcher: ["/", "/auth/login", "/auth/register", "/dashboard/:path*"]
+  // Apply middleware to the root path and auth paths
 };
