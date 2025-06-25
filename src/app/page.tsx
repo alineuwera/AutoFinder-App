@@ -1,4 +1,3 @@
-"use client";
 import HeroSearchForm from "@/components/HeroSearchForm";
 import CarTypesSection from "@/components/CarTypesSection";
 import TopOffersSection from "@/components/TopOffersSection";
