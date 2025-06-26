@@ -1,11 +1,11 @@
 "use client";
 
-
-
 import React from "react";
 import { FiVideo } from "react-icons/fi";
 import { FaThumbsUp } from "react-icons/fa";
 import Image from "next/image";
+
+
 
 const PopularVideo: React.FC = () => {
   return (
@@ -40,7 +40,7 @@ const PopularVideo: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* Video Card 1 */}
+        
           <VideoCard
             image="/images/mercedes.jpg"
             alt="Electric Mercedes sedan"
@@ -49,7 +49,7 @@ const PopularVideo: React.FC = () => {
             title="Electric Mercedes sedan car reportedly debuting in 2025"
           />
 
-          {/* Video Card 2 */}
+          
           <VideoCard
             image="/images/budget.jpg"
             alt="Budget vs Premium tyres"
@@ -58,7 +58,7 @@ const PopularVideo: React.FC = () => {
             title="Budget vs Premium tyres: which are better value this year?"
           />
 
-          {/* Video Card 3 */}
+         
           <VideoCard
             image="/images/Tesla.jpg"
             alt="Tesla update"
