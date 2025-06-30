@@ -12,7 +12,7 @@ export default function LoginPage() {
     if (email === "test@example.com" && password === "aline123") {
       localStorage.setItem("isAuthenticated", "true");
       alert("Login successful!");
-      window.location.href = "/SellCar"; // 
+      window.location.href = "/SellCar";
     } else {
       alert("Invalid credentials");
     }
@@ -20,7 +20,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-[#267180] opacity-85 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8 bg-[#307685]  p-6 rounded-lg shadow-md">
+      <div className="max-w-md w-full space-y-8 bg-[#307685] p-6 rounded-lg shadow-md">
         <div>
           <h2 className="text-center text-3xl font-bold text-white">Sign In</h2>
           <p className="mt-2 text-center text-sm text-gray-200">
@@ -57,6 +57,15 @@ export default function LoginPage() {
               onChange={(e) => setPassword(e.target.value)}
               className="mt-1 block w-full rounded-md border-gray-300 bg-white text-gray-900 p-2 focus:border-teal-500 focus:ring-teal-500 focus:outline-none"
             />
+            {/* Forgot Password link */}
+            <div className="mt-2 text-right">
+              <a
+                href="/auth/forgot-password"
+                className="text-sm text-gray-200 hover:text-white"
+              >
+                Forgot password?
+              </a>
+            </div>
           </div>
           <div>
             <button
@@ -69,7 +78,10 @@ export default function LoginPage() {
         </form>
         <div className="text-center text-sm text-gray-200">
           Don’t have an account?{" "}
-          <a href="/auth/register" className="font-medium text-white hover:text-gray-200">
+          <a
+            href="/auth/register"
+            className="font-medium text-white hover:text-gray-200"
+          >
             Sign up
           </a>
         </div>
