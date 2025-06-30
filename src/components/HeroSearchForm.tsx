@@ -5,7 +5,7 @@ import { ChevronRight, Search } from "lucide-react";
 
 const HeroSearchForm: React.FC = () => {
   return (
-    <div className="bg-[#307685] p-6 rounded-2xl w-full  mt-10  max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="bg-gradient-to-r from-[#325F68] to-[#3F8089] p-6 rounded w-full  mt-10  max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       {/* Tabs */}
       <div className="flex gap-2 mb-6 ">
         <button className="text-white border px-4  py-2 rounded-full">All</button>
