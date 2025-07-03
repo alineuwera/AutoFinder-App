@@ -48,7 +48,7 @@ const SetFinder: React.FC = () => {
               className="flex flex-col items-start gap-4 text-left bg-[#ECF2F2] rounded-lg p-4"
             >
               {feature.icon}
-              <h3 className="text-sm font-bold pt-3">{feature.name}</h3>
+              <h3 className="text-sm font-bold pt-3 text-black">{feature.name}</h3>
             </div>
           ))}
         </div>

@@ -13,7 +13,7 @@ export default function HomePage() {
       <NavigationBar />
       <div
         className="bg-cover bg-center p-6"
-        style={{ backgroundImage: "url('/images/background-image.png')" }} // 👈 Replace with your image path
+        style={{ backgroundImage: "url('/images/background-image.png')" }} 
       >
         <div className="flex items-center justify-between mb-4 mx-auto py-15 mt-20 px-4 sm:px-6 lg:px-8 max-w-7xl">
           <HeroSearchForm />
