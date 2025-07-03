@@ -53,7 +53,7 @@ const TopOffersSection = () => {
   ];
 
   return (
-    <div className="bg-gray-50 p-4 sm:p-6 lg:p-8">
+    <div className=" p-4 sm:p-6 lg:p-8">
       <div className="max-w-[1100px] mx-auto">
         <div className="flex items-center justify-between mb-4 sm:mb-6">
           <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Top offers</h1>
