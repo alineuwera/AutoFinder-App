@@ -61,13 +61,10 @@ export default function AutoMarket() {
             </button>
           </div>
 
-         {/* tires items */}
+          {/* tires items */}
           <div className="flex flex-wrap sm:flex-nowrap items-center justify-center gap-6 lg:gap-6">
             {carTires.map((item) => (
-              <div
-                key={item.id}
-                className="flex flex-col items-center group"
-              >
+              <div key={item.id} className="flex flex-col items-center group">
                 <div className="w-28 h-28 relative flex items-center justify-center">
                   <Image
                     src={item.image}
