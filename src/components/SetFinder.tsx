@@ -37,7 +37,7 @@ const SetFinder: React.FC = () => {
   return (
     <section className="w-full py-10 px-4 sm:px-6 lg:px-8">
       <div className="max-w-[1100px] mx-auto">
-        <h2 className="text-xl sm:text-2xl font-bold mb-6 sm:mb-8 text-left">
+        <h2 className="text-xl sm:text-2xl font-bold mb-6 sm:mb-8 text-left text-black">
           What sets Finder apart?
         </h2>
 

@@ -3,6 +3,9 @@ import CarTypesSection from "@/components/CarTypesSection";
 import TopOffersSection from "@/components/TopOffersSection";
 import BrandsSection from "@/components/BrandsSection";
 import NavigationBar from "@/components/NavigationBar";
+import SetFinder from "@/components/SetFinder";
+import AutoMarket from "@/components/AutoMarket";
+import PopularVideo from "@/components/Popularvideo";
 
 export default function HomePage() {
   return (
@@ -22,6 +25,9 @@ export default function HomePage() {
       <CarTypesSection />
       <TopOffersSection />
       <BrandsSection />
+      <SetFinder />
+      <AutoMarket />
+      <PopularVideo />
     </div>
   );
 }
