@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { MapPin, Gauge, Fuel} from 'lucide-react';
 import Image from 'next/image';
@@ -76,8 +77,7 @@ const TopOffersSection = () => {
             </span>
           </a>
         </div>
-        
-       
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-start">
           <div className="bg-white rounded-lg shadow-sm overflow-hidden relative">
             <div className="relative">
@@ -103,6 +103,7 @@ const TopOffersSection = () => {
               <div className="flex items-center justify-between text-xs text-gray-500 mb-3">
                 <span>{topOffers[0].date}</span>
                 <div className="flex space-x-1 sm:space-x-2">
+
                    <button className="w-6 h-6 sm:w-7 sm:h-7 rounded-full border border-gray-200 flex items-center justify-center">
                      <FiHeart className="text-gray-600 text-xs sm:text-sm" />
                      </button>
@@ -121,7 +122,7 @@ const TopOffersSection = () => {
               <p className="text-sm sm:text-base font-bold text-gray-900 mb-3">{topOffers[0].price}</p>
               
               <hr className="border-gray-200 mb-4" />
-              
+
               <div className="grid grid-cols-2 sm:flex sm:flex-wrap sm:justify-between gap-2 sm:gap-4 text-xs sm:text-sm text-gray-600">
                 <div className="flex items-center gap-1">
                   <MapPin className="w-3 h-3 sm:w-4 sm:h-4" />
@@ -136,13 +137,13 @@ const TopOffersSection = () => {
                   <span>{topOffers[0].fuel}</span>
                 </div>
                 <div className="flex items-center gap-1">
+
                   < TbManualGearbox className="w-3 h-3 sm:w-4 sm:h-4" />
                   <span>{topOffers[0].transmission}</span>
                 </div>
               </div>
             </div>
           </div>
-
           
           <div className="flex flex-col space-y-4 h-full">
             {topOffers.slice(1).map((offer) => (
