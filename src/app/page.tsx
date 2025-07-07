@@ -6,6 +6,8 @@ import NavigationBar from "@/components/NavigationBar";
 import SetFinder from "@/components/SetFinder";
 import AutoMarket from "@/components/AutoMarket";
 import PopularVideo from "@/components/Popularvideo";
+import CurrentlyInDemand from "@/components/CurrentlyInDemand";
+import LatestCar from "@/components/LatestCar";
 
 
 
@@ -27,7 +29,9 @@ export default function HomePage() {
       <CarTypesSection />
       <TopOffersSection />
       <BrandsSection />
+      <CurrentlyInDemand />
       <SetFinder />
+      <LatestCar />
       <AutoMarket />
       <PopularVideo />
     </div>

@@ -35,9 +35,9 @@ const features: Feature[] = [
 
 const SetFinder: React.FC = () => {
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
       <div className="">
-        <h2 className="text-xl sm:text-2xl font-bold mb-6 sm:mb-8 text-left text-black">
+        <h2 className="text-xl sm:text-2xl font-semibold mb-6 sm:mb-8 text-left text-black">
           What sets Finder apart?
         </h2>
 

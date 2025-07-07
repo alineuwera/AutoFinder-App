@@ -54,10 +54,10 @@ const TopOffersSection = () => {
   ];
 
   return (
-    <div className=" p-4 sm:p-6 lg:p-8">
-      <div className="max-w-[1100px] mx-auto">
+    <div className="p-4 sm:p-6 lg:p-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-4 sm:mb-6">
-          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Top offers</h1>
+          <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">Top offers</h1>
           <a href="#" className="text-gray-600 hover:text-gray-800 text-sm flex items-center">
             View all <span className='ml-1'>
               <svg
