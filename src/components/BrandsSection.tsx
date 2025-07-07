@@ -14,7 +14,6 @@ const BrandsSection = () => {
 
   return (
     <div className="p-6 rounded-lg max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-10">
-      <h1 className="text-2xl font-semibold text-gray-900 mb-6">Available Brands</h1>
       <div className="flex flex-wrap justify-center gap-18">
         {brands.map((brand) => (
           <div key={brand.name} className="flex items-center justify-center w-18 h-18">
