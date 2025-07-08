@@ -6,7 +6,7 @@ import { FiHeart } from "react-icons/fi";
 import { PiBellRingingLight } from "react-icons/pi";
 import { HiArrowsRightLeft } from "react-icons/hi2";
 import { TbManualGearbox } from "react-icons/tb";
-import { MapPin, Gauge, Fuel } from "lucide-react";
+import { MapPin, Gauge, Fuel, Eye, Briefcase, User, CameraIcon, Upload } from "lucide-react";
 
 // Define types
 type CategoryKey = "exterior" | "interior" | "safety";
@@ -82,7 +82,7 @@ export default function SellCarPage() {
 
   return (
     <div className="flex flex-col lg:flex-row items-start justify-center min-h-screen bg-gray-100 p-6 gap-6 w-full">
-      <div className="flex justify-between">
+      <div className="">
         <div className="flex-1 flex flex-col gap-8">
           <h1 className="text-2xl font-bold mt-15">Sell Car</h1>
           {/* Photos / Videos */}
@@ -150,7 +150,7 @@ export default function SellCarPage() {
           <h3 className="text-sm font-medium mb-2">Body type *</h3>
           <div className="flex gap-3">
             <button className="flex flex-col items-center rounded-md border border-gray-100 py-2 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-300">
-              <im
+              <Image
                 src="/images/sedan.jpg"
                 alt="Sedan"
                 height={200}
@@ -983,6 +983,5 @@ export default function SellCarPage() {
           </div>
         </div>
       </div>
-    </div>
   );
 }
