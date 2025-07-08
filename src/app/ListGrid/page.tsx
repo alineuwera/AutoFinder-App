@@ -343,7 +343,7 @@ const CarCard = React.memo(({ car, isListView }: { car: Car; isListView: boolean
 const ListGrid = () => {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
-  // Debug state changes
+ 
   console.log("Current viewMode:", viewMode);
 
   const handleGridClick = useCallback(() => {
