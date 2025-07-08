@@ -6,6 +6,7 @@ import { FiHeart } from "react-icons/fi";
 import { PiBellRingingLight} from "react-icons/pi";
 import { HiArrowsRightLeft } from "react-icons/hi2";
 import { TbManualGearbox } from "react-icons/tb";
+import Link from 'next/link';
 
 const TopOffersSection = () => {
   const topOffers = [
@@ -58,24 +59,9 @@ const TopOffersSection = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-4 sm:mb-6">
           <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">Top offers</h1>
-          <a href="#" className="text-gray-600 hover:text-gray-800 text-sm flex items-center">
-            View all <span className='ml-1'>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </span>
-          </a>
+          <Link href="/ListGrid" className="text-black hover:underline text-sm">
+        View all <span>&rsaquo;</span>
+      </Link>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-start">
