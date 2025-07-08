@@ -1,3 +1,4 @@
+
 import React from "react";
 import { MapPin, Gauge, Fuel } from "lucide-react";
 import Image from "next/image";
@@ -85,7 +86,6 @@ const TopOffersSection = () => {
           </a>
 
         </div>
-
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-start">
           <div className="bg-white rounded-lg shadow-sm overflow-hidden relative">
             <div className="relative">
@@ -209,7 +209,6 @@ const TopOffersSection = () => {
                   </div>
 
                   <hr className="border-gray-200 mb-2" />
-
                   <div className="grid grid-cols-2 sm:flex sm:flex-wrap sm:justify-between gap-1 sm:gap-2 text-xs text-gray-600">
                     <div className="flex items-center gap-1">
                       <MapPin className="w-3 h-3" />
@@ -239,3 +238,16 @@ const TopOffersSection = () => {
 };
 
 export default TopOffersSection;
+
+
+
+
+
+
+
+
+
+
+
+
+
