@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { Eye, User, Briefcase, Upload, CameraIcon } from "lucide-react";
 import Image from "next/image";
 import { FiHeart } from "react-icons/fi";
 import { PiBellRingingLight } from "react-icons/pi";
@@ -145,9 +144,54 @@ export default function SellCarPage() {
             />
           </div>
 
-          {/* Basic Information */}
-          <div className="w-full max-w-4xl bg-white p-8 rounded-lg shadow mb-8">
-            <h2 className="text-2xl font-semibold mb-6">Basic information</h2>
+
+        {/* Body type */}
+        <div className="mt-5">
+          <h3 className="text-sm font-medium mb-2">Body type *</h3>
+          <div className="flex gap-3">
+            <button className="flex flex-col items-center rounded-md border border-gray-100 py-2 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-300">
+              <im
+                src="/images/sedan.jpg"
+                alt="Sedan"
+                height={200}
+                width={200}
+                className="object-contain"
+              />
+              <span className="text-sm mt-1">Sedan</span>
+            </button>
+            <button className="flex flex-col items-center rounded-md border border-gray-100 py-2 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-300">
+              <Image
+                src="/images/sedan.jpg"
+                alt="Convertible"
+                height={200}
+                width={200}
+                className="object-contain"
+              />
+              <span className="text-xs mt-1">Convertible</span>
+            </button>
+            <button className="flex flex-col items-center rounded-md border border-gray-100 py-2 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-300">
+              <Image
+                src="/images/sedan.jpg"
+                alt="SUV"
+                height={200}
+                width={200}
+                className="object-contain"
+              />
+              <span className="text-xs mt-1">SUV</span>
+            </button>
+            <button className="flex flex-col items-center rounded-md border border-gray-100 py-2 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-300">
+              <Image
+                src="/images/sedan.jpg"
+                alt="Coupe"
+                height={200}
+                width={200}
+                className="object-contain"
+              />
+              <span className="text-xs mt-1">Coupe</span>
+            </button>
+          </div>
+        </div>
+
 
             <div className="flex gap-3 mb-4">
               <button

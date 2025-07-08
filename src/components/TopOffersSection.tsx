@@ -5,6 +5,7 @@ import { FiHeart } from "react-icons/fi";
 import { PiBellRingingLight } from "react-icons/pi";
 import { HiArrowsRightLeft } from "react-icons/hi2";
 import { TbManualGearbox } from "react-icons/tb";
+import Link from 'next/link';
 
 const TopOffersSection = () => {
   const topOffers = [
@@ -56,6 +57,7 @@ const TopOffersSection = () => {
     <div className="p-4 sm:p-6 lg:p-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-4 sm:mb-6">
+
           <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">
             Top offers
           </h1>
@@ -81,6 +83,7 @@ const TopOffersSection = () => {
               </svg>
             </span>
           </a>
+
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-start">
