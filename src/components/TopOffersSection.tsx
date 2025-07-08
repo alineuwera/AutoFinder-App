@@ -1,9 +1,8 @@
-
-import React from 'react';
-import { MapPin, Gauge, Fuel} from 'lucide-react';
-import Image from 'next/image';
+import React from "react";
+import { MapPin, Gauge, Fuel } from "lucide-react";
+import Image from "next/image";
 import { FiHeart } from "react-icons/fi";
-import { PiBellRingingLight} from "react-icons/pi";
+import { PiBellRingingLight } from "react-icons/pi";
 import { HiArrowsRightLeft } from "react-icons/hi2";
 import { TbManualGearbox } from "react-icons/tb";
 
@@ -57,9 +56,15 @@ const TopOffersSection = () => {
     <div className="p-4 sm:p-6 lg:p-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-4 sm:mb-6">
-          <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">Top offers</h1>
-          <a href="#" className="text-gray-600 hover:text-gray-800 text-sm flex items-center">
-            View all <span className='ml-1'>
+          <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">
+            Top offers
+          </h1>
+          <a
+            href="#"
+            className="text-gray-600 hover:text-gray-800 text-sm flex items-center"
+          >
+            View all{" "}
+            <span className="ml-1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="w-4 h-4"
@@ -103,24 +108,27 @@ const TopOffersSection = () => {
               <div className="flex items-center justify-between text-xs text-gray-500 mb-3">
                 <span>{topOffers[0].date}</span>
                 <div className="flex space-x-1 sm:space-x-2">
-
-                   <button className="w-6 h-6 sm:w-7 sm:h-7 rounded-full border border-gray-200 flex items-center justify-center">
-                     <FiHeart className="text-gray-600 text-xs sm:text-sm" />
-                     </button>
-                    <button className="w-6 h-6 sm:w-7 sm:h-7 rounded-full border border-gray-200 flex items-center justify-center">
-                     <PiBellRingingLight className="text-gray-600 text-xs sm:text-sm" />
-                     </button>
-                     <button className="w-6 h-6 sm:w-7 sm:h-7 rounded-full border border-gray-200 flex items-center justify-center">
-                     <HiArrowsRightLeft className="text-gray-600 text-xs sm:text-sm" />
-                     </button>
-                
+                  <button className="w-6 h-6 sm:w-7 sm:h-7 rounded-full border border-gray-200 flex items-center justify-center">
+                    <FiHeart className="text-gray-600 text-xs sm:text-sm" />
+                  </button>
+                  <button className="w-6 h-6 sm:w-7 sm:h-7 rounded-full border border-gray-200 flex items-center justify-center">
+                    <PiBellRingingLight className="text-gray-600 text-xs sm:text-sm" />
+                  </button>
+                  <button className="w-6 h-6 sm:w-7 sm:h-7 rounded-full border border-gray-200 flex items-center justify-center">
+                    <HiArrowsRightLeft className="text-gray-600 text-xs sm:text-sm" />
+                  </button>
                 </div>
               </div>
               <h3 className="font-bold text-gray-900 text-sm sm:text-base mb-1">
-                {topOffers[0].title} <span className="text-gray-400 font-normal text-xs sm:text-sm">{topOffers[0].year}</span>
+                {topOffers[0].title}{" "}
+                <span className="text-gray-400 font-normal text-xs sm:text-sm">
+                  {topOffers[0].year}
+                </span>
               </h3>
-              <p className="text-sm sm:text-base font-bold text-gray-900 mb-3">{topOffers[0].price}</p>
-              
+              <p className="text-sm sm:text-base font-bold text-gray-900 mb-3">
+                {topOffers[0].price}
+              </p>
+
               <hr className="border-gray-200 mb-4" />
 
               <div className="grid grid-cols-2 sm:flex sm:flex-wrap sm:justify-between gap-2 sm:gap-4 text-xs sm:text-sm text-gray-600">
@@ -137,17 +145,19 @@ const TopOffersSection = () => {
                   <span>{topOffers[0].fuel}</span>
                 </div>
                 <div className="flex items-center gap-1">
-
-                  < TbManualGearbox className="w-3 h-3 sm:w-4 sm:h-4" />
+                  <TbManualGearbox className="w-3 h-3 sm:w-4 sm:h-4" />
                   <span>{topOffers[0].transmission}</span>
                 </div>
               </div>
             </div>
           </div>
-          
+
           <div className="flex flex-col space-y-4 h-full">
             {topOffers.slice(1).map((offer) => (
-              <div key={offer.id} className="bg-white rounded-lg shadow-sm overflow-hidden flex flex-col sm:flex-row flex-1 min-h-0">
+              <div
+                key={offer.id}
+                className="bg-white rounded-lg shadow-sm overflow-hidden flex flex-col sm:flex-row flex-1 min-h-0"
+              >
                 <div className="relative w-full sm:w-48 lg:w-64 flex-shrink-0">
                   <Image
                     src={offer.image}
@@ -157,7 +167,13 @@ const TopOffersSection = () => {
                     className="w-full h-40 sm:h-full object-cover sm:min-h-[140px]"
                   />
                   <div className="absolute top-2 left-2">
-                    <span className={`text-xs px-3 py-1 text-white rounded ${offer.condition === 'New' ? 'bg-[#D85151]' : 'bg-[#FC9231]'}`}>
+                    <span
+                      className={`text-xs px-3 py-1 text-white rounded ${
+                        offer.condition === "New"
+                          ? "bg-[#D85151]"
+                          : "bg-[#FC9231]"
+                      }`}
+                    >
                       {offer.condition}
                     </span>
                   </div>
@@ -167,25 +183,30 @@ const TopOffersSection = () => {
                     <div className="flex items-center justify-between text-xs text-gray-500 mb-2">
                       <span>{offer.date}</span>
                       <div className="flex space-x-1">
-                      <button className="w-6 h-6 sm:w-7 sm:h-7 rounded-full border border-gray-200 flex items-center justify-center">
-                     <FiHeart className="text-gray-600 text-xs sm:text-sm" />
-                     </button>
-                    <button className="w-6 h-6 sm:w-7 sm:h-7 rounded-full border border-gray-200 flex items-center justify-center">
-                     <PiBellRingingLight className="text-gray-600 text-xs sm:text-sm" />
-                     </button>
-                     <button className="w-6 h-6 sm:w-7 sm:h-7 rounded-full border border-gray-200 flex items-center justify-center">
-                     <HiArrowsRightLeft className="text-gray-600 text-xs sm:text-sm" />
-                     </button>
+                        <button className="w-6 h-6 sm:w-7 sm:h-7 rounded-full border border-gray-200 flex items-center justify-center">
+                          <FiHeart className="text-gray-600 text-xs sm:text-sm" />
+                        </button>
+                        <button className="w-6 h-6 sm:w-7 sm:h-7 rounded-full border border-gray-200 flex items-center justify-center">
+                          <PiBellRingingLight className="text-gray-600 text-xs sm:text-sm" />
+                        </button>
+                        <button className="w-6 h-6 sm:w-7 sm:h-7 rounded-full border border-gray-200 flex items-center justify-center">
+                          <HiArrowsRightLeft className="text-gray-600 text-xs sm:text-sm" />
+                        </button>
                       </div>
                     </div>
                     <h3 className="text-xs sm:text-sm font-bold text-gray-900 mb-1">
-                      {offer.title} <span className="text-gray-400 font-normal text-xs sm:text-sm">{offer.year}</span>
+                      {offer.title}{" "}
+                      <span className="text-gray-400 font-normal text-xs sm:text-sm">
+                        {offer.year}
+                      </span>
                     </h3>
-                    <p className="text-xs sm:text-sm font-bold text-gray-900 mb-3">{offer.price}</p>
+                    <p className="text-xs sm:text-sm font-bold text-gray-900 mb-3">
+                      {offer.price}
+                    </p>
                   </div>
-                  
+
                   <hr className="border-gray-200 mb-2" />
-                  
+
                   <div className="grid grid-cols-2 sm:flex sm:flex-wrap sm:justify-between gap-1 sm:gap-2 text-xs text-gray-600">
                     <div className="flex items-center gap-1">
                       <MapPin className="w-3 h-3" />
@@ -200,7 +221,7 @@ const TopOffersSection = () => {
                       <span>{offer.fuel}</span>
                     </div>
                     <div className="flex items-center gap-1">
-                      < TbManualGearbox className="w-3 h-3" />
+                      <TbManualGearbox className="w-3 h-3" />
                       <span>{offer.transmission}</span>
                     </div>
                   </div>
