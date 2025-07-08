@@ -9,8 +9,8 @@ import Image from "next/image";
 
 const PopularVideo: React.FC = () => {
   return (
-    <section className="py-8 px-4 sm:px-6 lg:px-8 flex justify-center">
-      <div className="w-full max-w-[1200px] px-4">
+    <section className="py-8  justify-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-semibold text-gray-900">
             Popular videos

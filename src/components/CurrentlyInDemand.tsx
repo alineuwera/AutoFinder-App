@@ -39,7 +39,9 @@ const CurrentlyInDemand: React.FC = () => {
   return (
     <section className="py-10 px-4 sm:px-6 lg:px-8">
       <div className="max-w-[950px] mx-auto">
-        <h2 className="text-center text-2xl font-bold mb-8">
+
+        <h2 className="text-center text-2xl font-bold mb-8 text-gray-950">
+
           Currently in Demand
         </h2>
 
@@ -54,7 +56,8 @@ const CurrentlyInDemand: React.FC = () => {
                   className="rounded-full object-cover"
                 />
               </div>
-              <h3 className="mt-2 text-sm sm:text-base font-bold">
+
+              <h3 className="mt-2 text-sm sm:text-base font-bold text-gray-950">
                 {car.name}
               </h3>
             </div>
@@ -66,7 +69,4 @@ const CurrentlyInDemand: React.FC = () => {
 };
 
 export default CurrentlyInDemand;
-
-
-
 

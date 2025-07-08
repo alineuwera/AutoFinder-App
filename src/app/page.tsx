@@ -3,6 +3,13 @@ import CarTypesSection from "@/components/CarTypesSection";
 import TopOffersSection from "@/components/TopOffersSection";
 import BrandsSection from "@/components/BrandsSection";
 import NavigationBar from "@/components/NavigationBar";
+import SetFinder from "@/components/SetFinder";
+import AutoMarket from "@/components/AutoMarket";
+import PopularVideo from "@/components/Popularvideo";
+import CurrentlyInDemand from "@/components/CurrentlyInDemand";
+import LatestCar from "@/components/LatestCar";
+
+
 
 export default function HomePage() {
   return (
@@ -10,7 +17,7 @@ export default function HomePage() {
       <NavigationBar />
       <div
         className="bg-cover bg-center p-6"
-        style={{ backgroundImage: "url('/images/background-image.png')" }} // 👈 Replace with your image path
+        style={{ backgroundImage: "url('/images/background-image.png')" }} 
       >
         <div className="flex items-center justify-between mb-4 mx-auto py-15 mt-20 px-4 sm:px-6 lg:px-8 max-w-7xl">
           <HeroSearchForm />
@@ -22,6 +29,11 @@ export default function HomePage() {
       <CarTypesSection />
       <TopOffersSection />
       <BrandsSection />
+      <CurrentlyInDemand />
+      <SetFinder />
+      <LatestCar />
+      <AutoMarket />
+      <PopularVideo />
     </div>
   );
 }

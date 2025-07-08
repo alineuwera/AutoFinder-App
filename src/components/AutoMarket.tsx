@@ -36,7 +36,7 @@ export default function AutoMarket() {
       <div className="bg-gray-50 rounded-sm p-6 sm:p-8 lg:p-12 w-full max-w-[950px]">
         <div className="flex flex-col lg:flex-row items-center lg:items-start justify-between gap-8">
           <div className="flex flex-col gap-4 flex-shrink-0 w-full lg:w-auto text-center lg:text-left">
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
+            <h2 className="text-xl sm:text-2xl font-semibold text-gray-900">
               Auto market
             </h2>
             <p className="text-gray-600 text-sm sm:text-base">
@@ -61,13 +61,10 @@ export default function AutoMarket() {
             </button>
           </div>
 
-         {/* tires items */}
+          {/* tires items */}
           <div className="flex flex-wrap sm:flex-nowrap items-center justify-center gap-6 lg:gap-6">
             {carTires.map((item) => (
-              <div
-                key={item.id}
-                className="flex flex-col items-center group"
-              >
+              <div key={item.id} className="flex flex-col items-center group">
                 <div className="w-28 h-28 relative flex items-center justify-center">
                   <Image
                     src={item.image}
