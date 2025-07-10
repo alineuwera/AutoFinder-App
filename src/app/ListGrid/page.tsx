@@ -29,7 +29,8 @@ interface Car {
 const cars: Car[] = [
   {
     id: 1,
-    image: "https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=400&h=300&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=400&h=300&fit=crop",
     name: "Tesla Model 3",
     year: 2022,
     price: "$32,000",
@@ -43,7 +44,8 @@ const cars: Car[] = [
   },
   {
     id: 2,
-    image: "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=400&h=300&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=400&h=300&fit=crop",
     name: "Porsche 911 Turbo S",
     year: 2021,
     price: "$15,500",
@@ -57,7 +59,8 @@ const cars: Car[] = [
   },
   {
     id: 3,
-    image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=400&h=300&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=400&h=300&fit=crop",
     name: "Ford Truck Lifted",
     year: 2020,
     price: "$25,000",
@@ -71,7 +74,8 @@ const cars: Car[] = [
   },
   {
     id: 4,
-    image: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=400&h=300&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=400&h=300&fit=crop",
     name: "Mercedes-Benz A205",
     year: 2019,
     price: "$12,000",
@@ -85,7 +89,8 @@ const cars: Car[] = [
   },
   {
     id: 5,
-    image: "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=400&h=300&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=400&h=300&fit=crop",
     name: "Mercedes-Benz Coupe",
     year: 2021,
     price: "$65,000",
@@ -99,7 +104,8 @@ const cars: Car[] = [
   },
   {
     id: 6,
-    image: "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=400&h=300&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=400&h=300&fit=crop",
     name: "Maserati Granturismo",
     year: 2022,
     price: "$120,000",
@@ -113,7 +119,8 @@ const cars: Car[] = [
   },
   {
     id: 7,
-    image: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=400&h=300&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=400&h=300&fit=crop",
     name: "Smart Fortwo Cabrio",
     year: 2023,
     price: "$35,000",
@@ -127,7 +134,8 @@ const cars: Car[] = [
   },
   {
     id: 8,
-    image: "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=400&h=300&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=400&h=300&fit=crop",
     name: "Land Rover Defender",
     year: 2022,
     price: "$40,000",
@@ -141,7 +149,8 @@ const cars: Car[] = [
   },
   {
     id: 9,
-    image: "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=400&h=300&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=400&h=300&fit=crop",
     name: "Audi R8 Spyder",
     year: 2021,
     price: "$90,000",
@@ -155,7 +164,8 @@ const cars: Car[] = [
   },
   {
     id: 10,
-    image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=400&h=300&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=400&h=300&fit=crop",
     name: "GMC Sierra 1500",
     year: 2022,
     price: "$120,000",
@@ -169,7 +179,8 @@ const cars: Car[] = [
   },
   {
     id: 11,
-    image: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=400&h=300&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=400&h=300&fit=crop",
     name: "Toyota Yaris GR Sport",
     year: 2022,
     price: "$120,000",
@@ -183,7 +194,8 @@ const cars: Car[] = [
   },
   {
     id: 12,
-    image: "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=400&h=300&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=400&h=300&fit=crop",
     name: "Porsche 911 Carrera",
     year: 2022,
     price: "$120,000",
@@ -197,153 +209,161 @@ const cars: Car[] = [
   },
 ];
 
-const CarCard = React.memo(({ car, isListView }: { car: Car; isListView: boolean }) => {
-  console.log(`Rendering CarCard for ${car.name}, isListView: ${isListView}`);
-  return (
-    <div className="bg-gray-100 rounded-md border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200">
-      {isListView ? (
-        <div className="flex flex-col md:flex-row">
-          <div className="md:w-1/2 w-full h-40 md:h-48 relative">
-            <img
-              src={car.image}
-              alt={car.name}
-              className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-              loading="lazy"
-            />
-            <div className="absolute top-2 left-2 flex flex-col gap-1">
-              {car.verified && (
-                <span className="w-[72px] px-2 py-1 text-[11px] font-medium text-white bg-green-600 rounded-md text-center">
-                  Verified ✓
-                </span>
-              )}
-              {car.isUsed && (
-                <span className="w-[42px] px-2 py-1 text-[11px] font-medium text-white bg-red-500 rounded-md text-center">
-                  Used
-                </span>
-              )}
-            </div>
-          </div>
-          <div className="md:w-1/2 w-full px-4 py-2 text-sm">
-            <div className="flex justify-between items-center text-gray-400 text-[11px] mb-1">
-              <span>{car.date}</span>
-              <div className="flex gap-2">
-                <button className="w-6 h-6 rounded-full border border-gray-200 flex items-center justify-center">
-                  <FiHeart className="text-sm" />
-                </button>
-                <button className="w-6 h-6 rounded-full border border-gray-200 flex items-center justify-center">
-                  <PiBellRingingLight className="text-sm" />
-                </button>
-                <button className="w-6 h-6 rounded-full border border-gray-200 flex items-center justify-center">
-                  <HiArrowsRightLeft className="text-sm" />
-                </button>
+const CarCard = React.memo(
+  ({ car, isListView }: { car: Car; isListView: boolean }) => {
+    console.log(`Rendering CarCard for ${car.name}, isListView: ${isListView}`);
+    return (
+      <div className="bg-gray-100 rounded-md border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200 ">
+        {isListView ? (
+          <div className="flex flex-col md:flex-row">
+            <div className="md:w-1/2 w-full h-40 md:h-48 relative">
+              <img
+                src={car.image}
+                alt={car.name}
+                className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                loading="lazy"
+              />
+              <div className="absolute top-2 left-2 flex flex-col gap-1">
+                {car.verified && (
+                  <span className="w-[72px] px-2 py-1 text-[11px] font-medium text-white bg-green-600 rounded-md text-center">
+                    Verified ✓
+                  </span>
+                )}
+                {car.isUsed && (
+                  <span className="w-[42px] px-2 py-1 text-[11px] font-medium text-white bg-red-500 rounded-md text-center">
+                    Used
+                  </span>
+                )}
               </div>
             </div>
-            <h3 className="font-bold text-gray-900 text-base mb-1">
-              {car.name} <span className="text-gray-400 text-[11px]">({car.year})</span>
-            </h3>
-            <div className="text-base font-bold text-gray-900 mb-1">{car.price}</div>
-            <p className="text-[11px] text-gray-600 mb-2">
-              This is a well-maintained {car.name} with excellent performance and modern features.
-            </p>
-            <hr className="border-t border-gray-200 my-2" />
-            <div className="flex gap-3 text-[11px] text-gray-600 items-center">
-              <div className="flex items-center gap-1">
-                <CiLocationOn className="text-sm" />
-                <span>{car.location}</span>
+            <div className="md:w-1/2 w-full px-4 py-2 text-sm">
+              <div className="flex justify-between items-center text-gray-400 text-[11px] mb-1">
+                <span>{car.date}</span>
+                <div className="flex gap-2">
+                  <button className="w-6 h-6 rounded-full border border-gray-200 flex items-center justify-center">
+                    <FiHeart className="text-sm" />
+                  </button>
+                  <button className="w-6 h-6 rounded-full border border-gray-200 flex items-center justify-center">
+                    <PiBellRingingLight className="text-sm" />
+                  </button>
+                  <button className="w-6 h-6 rounded-full border border-gray-200 flex items-center justify-center">
+                    <HiArrowsRightLeft className="text-sm" />
+                  </button>
+                </div>
               </div>
-              <span>|</span>
-              <div className="flex items-center gap-1">
-                <PiClock className="text-sm" />
-                <span>{car.mileage}</span>
+              <h3 className="font-bold text-gray-900 text-base mb-1">
+                {car.name}{" "}
+                <span className="text-gray-400 text-[11px]">({car.year})</span>
+              </h3>
+              <div className="text-base font-bold text-gray-900 mb-1">
+                {car.price}
               </div>
-              <span>|</span>
-              <div className="flex items-center gap-1">
-                <BsFuelPump className="text-sm" />
-                <span>{car.fuel}</span>
-              </div>
-              <span>|</span>
-              <div className="flex items-center gap-1">
-                <TbManualGearbox className="text-sm" />
-                <span>{car.transmission}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      ) : (
-        <>
-          <div className="relative w-full h-44">
-            <img
-              src={car.image}
-              alt={car.name}
-              className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-              loading="lazy"
-            />
-            <div className="absolute top-2 left-2 flex flex-col gap-1">
-              {car.verified && (
-                <span className="w-[72px] px-2 py-1 text-xs font-medium text-white bg-green-600 rounded-md text-center">
-                  Verified ✓
-                </span>
-              )}
-              {car.isUsed && (
-                <span className="w-[42px] px-2 py-1 text-xs font-medium text-white bg-red-500 rounded-md text-center">
-                  Used
-                </span>
-              )}
-            </div>
-          </div>
-          <div className="px-3 py-3 text-sm">
-            <div className="flex justify-between items-center text-gray-400 text-xs mb-1">
-              <span>{car.date}</span>
-              <div className="flex gap-2">
-                <button className="w-7 h-7 rounded-full border border-gray-200 flex items-center justify-center">
-                  <FiHeart />
-                </button>
-                <button className="w-7 h-7 rounded-full border border-gray-200 flex items-center justify-center">
-                  <PiBellRingingLight />
-                </button>
-                <button className="w-7 h-7 rounded-full border border-gray-200 flex items-center justify-center">
-                  <HiArrowsRightLeft />
-                </button>
-              </div>
-            </div>
-            <h3 className="font-bold text-gray-900 text-base mb-1">
-              {car.name} <span className="text-gray-400 text-sm">({car.year})</span>
-            </h3>
-            <div className="text-base font-bold text-gray-900 mb-3">{car.price}</div>
-            <hr className="border-t border-gray-200 my-2" />
-            <div className="text-xs text-gray-600">
-              <div className="grid grid-cols-2 gap-2 pb-2">
+              <p className="text-[11px] text-gray-600 mb-2">
+                This is a well-maintained {car.name} with excellent performance
+                and modern features.
+              </p>
+              <hr className="border-t border-gray-200 my-2" />
+              <div className="flex gap-3 text-[11px] text-gray-600 items-center">
                 <div className="flex items-center gap-1">
-                  <CiLocationOn className="text-base" />
+                  <CiLocationOn className="text-sm" />
                   <span>{car.location}</span>
                 </div>
+                <span>|</span>
                 <div className="flex items-center gap-1">
-                  <PiClock className="text-base" />
+                  <PiClock className="text-sm" />
                   <span>{car.mileage}</span>
                 </div>
-              </div>
-              <div className="grid grid-cols-2 gap-2 pt-1">
+                <span>|</span>
                 <div className="flex items-center gap-1">
-                  <BsFuelPump className="text-base" />
+                  <BsFuelPump className="text-sm" />
                   <span>{car.fuel}</span>
                 </div>
+                <span>|</span>
                 <div className="flex items-center gap-1">
-                  <TbManualGearbox className="text-base" />
+                  <TbManualGearbox className="text-sm" />
                   <span>{car.transmission}</span>
                 </div>
               </div>
             </div>
           </div>
-        </>
-      )}
-    </div>
-  );
-});
+        ) : (
+          <>
+            <div className="relative w-full h-44">
+              <img
+                src={car.image}
+                alt={car.name}
+                className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                loading="lazy"
+              />
+              <div className="absolute top-2 left-2 flex flex-col gap-1">
+                {car.verified && (
+                  <span className="w-[72px] px-2 py-1 text-xs font-medium text-white bg-green-600 rounded-md text-center">
+                    Verified ✓
+                  </span>
+                )}
+                {car.isUsed && (
+                  <span className="w-[42px] px-2 py-1 text-xs font-medium text-white bg-red-500 rounded-md text-center">
+                    Used
+                  </span>
+                )}
+              </div>
+            </div>
+            <div className="px-3 py-3 text-sm">
+              <div className="flex justify-between items-center text-gray-400 text-xs mb-1">
+                <span>{car.date}</span>
+                <div className="flex gap-2">
+                  <button className="w-7 h-7 rounded-full border border-gray-200 flex items-center justify-center">
+                    <FiHeart />
+                  </button>
+                  <button className="w-7 h-7 rounded-full border border-gray-200 flex items-center justify-center">
+                    <PiBellRingingLight />
+                  </button>
+                  <button className="w-7 h-7 rounded-full border border-gray-200 flex items-center justify-center">
+                    <HiArrowsRightLeft />
+                  </button>
+                </div>
+              </div>
+              <h3 className="font-bold text-gray-900 text-base mb-1">
+                {car.name}{" "}
+                <span className="text-gray-400 text-sm">({car.year})</span>
+              </h3>
+              <div className="text-base font-bold text-gray-900 mb-3">
+                {car.price}
+              </div>
+              <hr className="border-t border-gray-200 my-2" />
+              <div className="text-xs text-gray-600">
+                <div className="grid grid-cols-2 gap-2 pb-2">
+                  <div className="flex items-center gap-1">
+                    <CiLocationOn className="text-base" />
+                    <span>{car.location}</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <PiClock className="text-base" />
+                    <span>{car.mileage}</span>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-2 pt-1">
+                  <div className="flex items-center gap-1">
+                    <BsFuelPump className="text-base" />
+                    <span>{car.fuel}</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <TbManualGearbox className="text-base" />
+                    <span>{car.transmission}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+    );
+  }
+);
 
 const ListGrid = () => {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
- 
   console.log("Current viewMode:", viewMode);
 
   const handleGridClick = useCallback(() => {
@@ -358,23 +378,27 @@ const ListGrid = () => {
 
   return (
     <div className="min-h-screen">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8">
+      <div className="max-w-7xl mx-auto space-y-12 sm:px-6 md:px-8">
         {/* Header */}
         <div className="bg-white border-b border-gray-200 pt-18">
           <div className="py-3">
-          <div className="text-xs text-gray-500 p-4 flex items-center gap-1">
-  <span className="text-blue-600">Home</span>
-  <HiChevronRight className="w-4 h-4 text-gray-400" />
-  <span>Used cars</span>
-</div>
+            <div className="text-xs text-gray-500 p-4 flex items-center gap-1">
+              <span className="text-blue-600">Home</span>
+              <HiChevronRight className="w-4 h-4 text-gray-400" />
+              <span>Used cars</span>
+            </div>
             <div className="flex justify-between items-center flex-wrap gap-2">
               <div className="flex items-center gap-2 pl-4 text-xs text-gray-500 flex-wrap">
                 <span>Showing 142 results</span>
                 <span className="bg-gray-100 px-4 py-1 rounded-2xl">Sedan</span>
                 <span className="bg-gray-100 px-4 py-1 rounded-2xl">SUV</span>
                 <span className="bg-gray-100 px-4 py-1 rounded-2xl">Coupe</span>
-                <span className="bg-gray-100 px-4 py-1 rounded-2xl">Under 2023</span>
-                <span className="bg-gray-100 px-4 py-1 rounded-2xl">$10,000 - $120,000</span>
+                <span className="bg-gray-100 px-4 py-1 rounded-2xl">
+                  Under 2023
+                </span>
+                <span className="bg-gray-100 px-4 py-1 rounded-2xl">
+                  $10,000 - $120,000
+                </span>
               </div>
               <div className="text-xs text-gray-500">clear all</div>
             </div>
@@ -382,11 +406,15 @@ const ListGrid = () => {
         </div>
 
         {/* Controls Section */}
-        <div className="py-3">
+        <div className="">
           <div className="flex items-center justify-between flex-wrap gap-2">
-            <div className="flex gap-2 items-center ml-4 pt-8">
-              <button className="px-3 py-1 text-xs bg-gray-100 rounded">New cars</button>
-              <button className="px-3 py-1 text-xs bg-gray-100 rounded">Used cars</button>
+            <div className="flex gap-2 items-center ml-4tx">
+              <button className="px-3 py-1 text-xs bg-gray-100 rounded">
+                New cars
+              </button>
+              <button className="px-3 py-1 text-xs bg-gray-100 rounded">
+                Used cars
+              </button>
             </div>
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-1 text-xs">
@@ -395,13 +423,21 @@ const ListGrid = () => {
               <div className="flex gap-1">
                 <button
                   onClick={handleGridClick}
-                  className={`p-1 rounded ${viewMode === "grid" ? "bg-blue-600 text-white" : "bg-gray-200"} z-10 pointer-events-auto cursor-pointer`}
+                  className={`p-1 rounded ${
+                    viewMode === "grid"
+                      ? "bg-blue-600 text-white"
+                      : "bg-gray-200"
+                  } z-10 pointer-events-auto cursor-pointer`}
                 >
                   <Grid size={16} />
                 </button>
                 <button
                   onClick={handleListClick}
-                  className={`p-1 rounded ${viewMode === "list" ? "bg-blue-600 text-white" : "bg-gray-200"} z-10 pointer-events-auto cursor-pointer`}
+                  className={`p-1 rounded ${
+                    viewMode === "list"
+                      ? "bg-blue-600 text-white"
+                      : "bg-gray-200"
+                  } z-10 pointer-events-auto cursor-pointer`}
                 >
                   <List size={16} />
                 </button>
@@ -418,7 +454,10 @@ const ListGrid = () => {
             <div className="mb-6">
               <h3 className="font-medium text-sm mb-3">Location and radius</h3>
               <div className="relative">
-                <MapPin size={16} className="absolute left-3 top-2.5 text-gray-400" />
+                <MapPin
+                  size={16}
+                  className="absolute left-3 top-2.5 text-gray-400"
+                />
                 <input
                   type="text"
                   placeholder="Any location"
@@ -518,7 +557,10 @@ const ListGrid = () => {
               </div>
               <div className="relative">
                 <div className="w-full h-2 bg-gray-200 rounded">
-                  <div className="h-2 bg-blue-600 rounded" style={{ width: "60%" }}></div>
+                  <div
+                    className="h-2 bg-blue-600 rounded"
+                    style={{ width: "60%" }}
+                  ></div>
                 </div>
                 <div className="absolute top-0 left-0 w-4 h-4 bg-blue-600 rounded-full -mt-1 cursor-pointer"></div>
                 <div className="absolute top-0 right-10 w-4 h-4 bg-blue-600 rounded-full -mt-1 cursor-pointer"></div>
