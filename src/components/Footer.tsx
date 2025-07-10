@@ -66,7 +66,7 @@ const Footer = () => {
 
          
           <div>
-            <h3 className="text-sm text-white font-semibold mb-2 flex gap-2"> <Download  className="h-5 w-5"/>Download our app</h3>
+            <h3 className="text-sm text-white font-semibold mb-2 flex gap-2">Download our app</h3>
             <p className="text-sm text-gray-400 mb-4">
               Download Finder App and join the community of car enthusiasts.
             </p>

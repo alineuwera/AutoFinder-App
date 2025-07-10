@@ -131,7 +131,7 @@ export default function CarDetails() {
                 alt="thumb"
                 width={152}
                 height={100}
-                className="rounded-md border"
+                className="rounded-md border opacity-45 hover:opacity-100 transition-opacity duration-200 cursor-pointer"
               />
             ))}
           </div>
@@ -184,7 +184,7 @@ export default function CarDetails() {
             <div className="flex space-x-3">
               <button
                 onClick={() => setShowPhone(!showPhone)}
-                className="flex-1 border rounded px-3 py-2 text-sm font-medium hover:bg-gray-50"
+                className="flex-1 border border-gray-400 rounded px-3 py-2 text-sm font-medium hover:bg-gray-50"
               >
                 {showPhone ? "(316) 123-4567" : "(316) *** **** – reveal"}
               </button>
@@ -202,7 +202,7 @@ export default function CarDetails() {
               <input
                 type="email"
                 placeholder="Your email"
-                className="flex-1 border rounded-l px-3 py-2 text-sm outline-none"
+                className="flex-1 border border-gray-300 rounded-l px-3 py-2 text-sm outline-none"
               />
               <button className="bg-gray-100 rounded-lg ml-3 text-gray-700 text-sm px-4 py-2 font-semibold hover:bg-gray-200">
                 Subscribe
