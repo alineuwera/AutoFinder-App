@@ -87,7 +87,8 @@ const cars: Car[] = [
   },
   {
     id: 5,
-    image: "/images/tires.png",
+
+    image: "/images/land.jpg",
     name: "Mercedes-Benz Coupe",
     year: 2021,
     price: "$65,000",
@@ -208,9 +209,11 @@ const CarCard = React.memo(
         {isListView ? (
           <div className="flex flex-col md:flex-row">
             <div className="md:w-1/2 w-full h-40 md:h-48 relative">
-              <img
+              <Image
                 src={car.image}
                 alt={car.name}
+                height={200}
+                width={200}
                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                 loading="lazy"
               />
@@ -280,9 +283,11 @@ const CarCard = React.memo(
         ) : (
           <>
             <div className="relative w-full h-44">
-              <img
+              <Image
                 src={car.image}
                 alt={car.name}
+                height={200}
+                width={200}
                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                 loading="lazy"
               />
