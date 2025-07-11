@@ -34,9 +34,12 @@ const NavigationBar: React.FC = () => {
 
        
 
-        <Link href="#" className="hover:text-red-600">
-          Contact
-        </Link>
+  
+
+    <Link href="/contact" className="hover:text-red-600">
+  Contact
+   </Link>
+
       </div>
 
       {/* Right icons */}

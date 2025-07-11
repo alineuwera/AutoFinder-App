@@ -1,13 +1,7 @@
 import type { NextConfig } from "next";
 
-const nextConfig: NextConfig & {
-  experimental?: {
-    turbopack?: boolean;
-  };
-} = {
-  experimental: {
-    turbopack: false, // Explicitly disable Turbopack to avoid the font module error
-  },
+const nextConfig: NextConfig = {
+  experimental: {},  // just empty object or remove this line completely if you want
 };
 
 export default nextConfig;

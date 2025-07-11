@@ -9,7 +9,9 @@ import { CiLocationOn } from "react-icons/ci";
 import { PiClock } from "react-icons/pi";
 import { BsFuelPump } from "react-icons/bs";
 import { TbManualGearbox } from "react-icons/tb";
-import { HiChevronRight } from "react-icons/hi2";
+import { HiChevronRight } from "react-icons/hi";
+import Image from "next/image";
+
 
 interface Car {
   id: number;
@@ -29,7 +31,7 @@ interface Car {
 const cars: Car[] = [
   {
     id: 1,
-    image: "https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=400&h=300&fit=crop",
+    image: "/images/volvo.jpg",
     name: "Tesla Model 3",
     year: 2022,
     price: "$32,000",
@@ -43,7 +45,7 @@ const cars: Car[] = [
   },
   {
     id: 2,
-    image: "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=400&h=300&fit=crop",
+    image: "/images/turbo.jpg",
     name: "Porsche 911 Turbo S",
     year: 2021,
     price: "$15,500",
@@ -57,7 +59,7 @@ const cars: Car[] = [
   },
   {
     id: 3,
-    image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=400&h=300&fit=crop",
+    image: "/images/fordt.jpg",
     name: "Ford Truck Lifted",
     year: 2020,
     price: "$25,000",
@@ -71,7 +73,7 @@ const cars: Car[] = [
   },
   {
     id: 4,
-    image: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=400&h=300&fit=crop",
+    image: "/images/Mercedesb.jpg",
     name: "Mercedes-Benz A205",
     year: 2019,
     price: "$12,000",
@@ -85,7 +87,7 @@ const cars: Car[] = [
   },
   {
     id: 5,
-    image: "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=400&h=300&fit=crop",
+    image: "/images/tires.png",
     name: "Mercedes-Benz Coupe",
     year: 2021,
     price: "$65,000",
@@ -99,7 +101,7 @@ const cars: Car[] = [
   },
   {
     id: 6,
-    image: "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=400&h=300&fit=crop",
+    image: "/images/masereti.jpg",
     name: "Maserati Granturismo",
     year: 2022,
     price: "$120,000",
@@ -113,7 +115,7 @@ const cars: Car[] = [
   },
   {
     id: 7,
-    image: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=400&h=300&fit=crop",
+    image: "/images/cabrio.jpg",
     name: "Smart Fortwo Cabrio",
     year: 2023,
     price: "$35,000",
@@ -127,7 +129,7 @@ const cars: Car[] = [
   },
   {
     id: 8,
-    image: "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=400&h=300&fit=crop",
+    image: "/images/land.jpg",
     name: "Land Rover Defender",
     year: 2022,
     price: "$40,000",
@@ -141,7 +143,7 @@ const cars: Car[] = [
   },
   {
     id: 9,
-    image: "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=400&h=300&fit=crop",
+    image: "/images/Audi.jpg",
     name: "Audi R8 Spyder",
     year: 2021,
     price: "$90,000",
@@ -155,7 +157,7 @@ const cars: Car[] = [
   },
   {
     id: 10,
-    image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=400&h=300&fit=crop",
+    image: "/images/Sierra.jpg",
     name: "GMC Sierra 1500",
     year: 2022,
     price: "$120,000",
@@ -169,7 +171,7 @@ const cars: Car[] = [
   },
   {
     id: 11,
-    image: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=400&h=300&fit=crop",
+    image: "/images/Toyota.jpg",
     name: "Toyota Yaris GR Sport",
     year: 2022,
     price: "$120,000",
@@ -183,7 +185,7 @@ const cars: Car[] = [
   },
   {
     id: 12,
-    image: "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=400&h=300&fit=crop",
+    image: "/images/Carrera.jpg",
     name: "Porsche 911 Carrera",
     year: 2022,
     price: "$120,000",
@@ -198,21 +200,22 @@ const cars: Car[] = [
 ];
 
 const CarCard = React.memo(({ car, isListView }: { car: Car; isListView: boolean }) => {
-  console.log(`Rendering CarCard for ${car.name}, isListView: ${isListView}`);
   return (
     <div className="bg-gray-100 rounded-md border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200">
       {isListView ? (
         <div className="flex flex-col md:flex-row">
           <div className="md:w-1/2 w-full h-40 md:h-48 relative">
-            <img
+            <Image
               src={car.image}
               alt={car.name}
+              height={200}
+              width={200}
               className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
               loading="lazy"
             />
             <div className="absolute top-2 left-2 flex flex-col gap-1">
               {car.verified && (
-                <span className="w-[72px] px-2 py-1 text-[11px] font-medium text-white bg-green-600 rounded-md text-center">
+                <span className="w-[72px] px-2 py-1 text-[11px] font-medium text-white bg-red-700 rounded-md text-center">
                   Verified ✓
                 </span>
               )}
@@ -246,22 +249,20 @@ const CarCard = React.memo(({ car, isListView }: { car: Car; isListView: boolean
               This is a well-maintained {car.name} with excellent performance and modern features.
             </p>
             <hr className="border-t border-gray-200 my-2" />
-            <div className="flex gap-3 text-[11px] text-gray-600 items-center">
+          
+            <div className="flex flex-wrap gap-x-3 gap-y-1 text-[11px] text-gray-600 items-center">
               <div className="flex items-center gap-1">
                 <CiLocationOn className="text-sm" />
                 <span>{car.location}</span>
               </div>
-              <span>|</span>
               <div className="flex items-center gap-1">
                 <PiClock className="text-sm" />
                 <span>{car.mileage}</span>
               </div>
-              <span>|</span>
               <div className="flex items-center gap-1">
                 <BsFuelPump className="text-sm" />
                 <span>{car.fuel}</span>
               </div>
-              <span>|</span>
               <div className="flex items-center gap-1">
                 <TbManualGearbox className="text-sm" />
                 <span>{car.transmission}</span>
@@ -272,9 +273,11 @@ const CarCard = React.memo(({ car, isListView }: { car: Car; isListView: boolean
       ) : (
         <>
           <div className="relative w-full h-44">
-            <img
+            <Image
               src={car.image}
               alt={car.name}
+              height={200}
+              width={200}
               className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
               loading="lazy"
             />
@@ -340,19 +343,16 @@ const CarCard = React.memo(({ car, isListView }: { car: Car; isListView: boolean
   );
 });
 
+CarCard.displayName = "CarCard";
+
 const ListGrid = () => {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
- 
-  console.log("Current viewMode:", viewMode);
-
   const handleGridClick = useCallback(() => {
-    console.log("Grid button clicked");
     setViewMode("grid");
   }, []);
 
   const handleListClick = useCallback(() => {
-    console.log("List button clicked");
     setViewMode("list");
   }, []);
 
@@ -363,12 +363,13 @@ const ListGrid = () => {
         <div className="bg-white border-b border-gray-200 pt-18">
           <div className="py-3">
           <div className="text-xs text-gray-500 p-4 flex items-center gap-1">
-  <span className="text-blue-600">Home</span>
-  <HiChevronRight className="w-4 h-4 text-gray-400" />
-  <span>Used cars</span>
-</div>
+            <span className="text-blue-600">Home</span>
+            <HiChevronRight className="w-4 h-4 text-gray-400" />
+            <span>Used cars</span>
+          </div>
             <div className="flex justify-between items-center flex-wrap gap-2">
-              <div className="flex items-center gap-2 pl-4 text-xs text-gray-500 flex-wrap">
+              {/* CHANGE: Removed pl-4 to rely on parent padding for consistent spacing on all screen sizes. */}
+              <div className="flex items-center gap-2 text-xs text-gray-500 flex-wrap">
                 <span>Showing 142 results</span>
                 <span className="bg-gray-100 px-4 py-1 rounded-2xl">Sedan</span>
                 <span className="bg-gray-100 px-4 py-1 rounded-2xl">SUV</span>
@@ -384,7 +385,8 @@ const ListGrid = () => {
         {/* Controls Section */}
         <div className="py-3">
           <div className="flex items-center justify-between flex-wrap gap-2">
-            <div className="flex gap-2 items-center ml-4 pt-8">
+             {/* CHANGE: Removed ml-4 to rely on parent padding for consistent spacing. */}
+            <div className="flex gap-2 items-center pt-8">
               <button className="px-3 py-1 text-xs bg-gray-100 rounded">New cars</button>
               <button className="px-3 py-1 text-xs bg-gray-100 rounded">Used cars</button>
             </div>
@@ -638,7 +640,8 @@ const ListGrid = () => {
 
           {/* Car Listings */}
           <div className="flex-1">
-            <div className="-mt-11">
+            {/* CHANGE: Changed -mt-11 to sm:-mt-11 to apply it only when the sidebar is on the side. */}
+            <div className="sm:-mt-11"> 
               <h2 className="text-xl text-gray-900 mb-6">Popular</h2>
             </div>
             <div className="pb-10">

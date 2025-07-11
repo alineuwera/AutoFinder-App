@@ -8,7 +8,7 @@ const Footer = () => {
   return (
     <footer className="bg-gray-900 py-15">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between text-[#9CA3AF] pb-3">
+        <div className="flex justify-center sm:justify-between text-[#9CA3AF] pb-3">
         <div className="text-sm font-semibold mb-2 flex items-center gap-1">
          <Copy className="h-5 w-5 "/>Over 1 million listings
         </div>
@@ -66,7 +66,7 @@ const Footer = () => {
 
          
           <div>
-            <h3 className="text-sm text-white font-semibold mb-2 flex gap-2"> <Download  className="h-5 w-5"/>Download our app</h3>
+            <h3 className="text-sm text-white font-semibold mb-2 flex items-center gap-2"> <Download  className="h-5 w-5"/>Download our app</h3>
             <p className="text-sm text-gray-400 mb-4">
               Download Finder App and join the community of car enthusiasts.
             </p>
@@ -94,9 +94,9 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="text-center flex justify-between text-xs text-gray-500 border-t border-gray-800 pt-4 font-bold">
-          © All rights reserved by Finder Team 2025.
-          <div className="flex justify-center mt-2 space-x-4 text-white">
+        <div className="text-center flex flex-col sm:flex-row justify-center sm:justify-between items-center text-xs text-gray-500 border-t border-gray-800 pt-4 font-bold gap-2 sm:gap-0">
+          <div>© All rights reserved by Finder Team 2025.</div>
+          <div className="flex justify-center space-x-4 text-white">
             <Instagram className="h-4 w-4" />
             <Facebook  className="h-4 w-4"/>
             <Twitter  className="h-4 w-4"/>
