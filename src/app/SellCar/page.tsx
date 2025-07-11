@@ -282,7 +282,7 @@ export default function SellCarPage() {
               <h3 className="text-sm font-medium mb-2">Body type *</h3>
               <div className="flex gap-3">
                 <button className="flex flex-col items-center rounded-md border border-gray-100 py-2 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-300">
-                  <img
+                  <Image
                     src="/images/sedan.jpg"
                     alt="Sedan"
                     height={200}
@@ -292,7 +292,7 @@ export default function SellCarPage() {
                   <span className="text-sm mt-1">Sedan</span>
                 </button>
                 <button className="flex flex-col items-center rounded-md border border-gray-100 py-2 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-300">
-                  <img
+                  <Image
                     src="/images/sedan.jpg"
                     alt="Convertible"
                     height={200}
@@ -302,7 +302,7 @@ export default function SellCarPage() {
                   <span className="text-xs mt-1">Convertible</span>
                 </button>
                 <button className="flex flex-col items-center rounded-md border border-gray-100 py-2 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-300">
-                  <img
+                  <Image
                     src="/images/sedan.jpg"
                     alt="SUV"
                     height={200}
@@ -312,7 +312,7 @@ export default function SellCarPage() {
                   <span className="text-xs mt-1">SUV</span>
                 </button>
                 <button className="flex flex-col items-center rounded-md border border-gray-100 py-2 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-300">
-                  <img
+                  <Image
                     src="/images/sedan.jpg"
                     alt="Coupe"
                     height={200}
