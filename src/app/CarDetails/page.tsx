@@ -330,7 +330,7 @@ export default function CarDetails() {
 
       {/* Seller Description */}
       <div>
-        <h2 className="text-2xl font-semibold mb-2">Seller's Description</h2>
+        <h2 className="text-2xl font-semibold mb-2">Seller&rsquos Description</h2>
         <p className="text-gray-600 max-w-2xl">
           This stunning convertible blends luxury with performance featuring a
           sleek design, advanced technology, and a powerful engine.

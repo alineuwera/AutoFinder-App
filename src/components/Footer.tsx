@@ -1,4 +1,4 @@
-import {  Copy, Download, Facebook, Instagram, Twitter } from "lucide-react";
+import {  Copy, Facebook, Instagram, Twitter } from "lucide-react";
 import Image from "next/image";
 import { AiOutlineFileSearch } from "react-icons/ai";
 import { PiHouseLine } from "react-icons/pi";
