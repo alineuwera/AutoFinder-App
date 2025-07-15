@@ -1,20 +1,78 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import { useForm } from "react-hook-form";
+
+type FormData = {
+  email: string;
+  password: string;
+};
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Simulate login (replace with API call)
-    if (email === "test@example.com" && password === "aline123") {
-      localStorage.setItem("isAuthenticated", "true");
-      alert("Login successful!");
-      window.location.href = "/SellCar";
-    } else {
-      alert("Invalid credentials");
+  const {
+    register,
+    handleSubmit,
+    reset,
+  } = useForm<FormData>();
+
+  const onSubmit = async (data: FormData) => {
+    setIsLoading(true);
+    try {
+      const res = await fetch(
+        "https://carfinder-894g.onrender.com/api/auth/login",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+          credentials: "include",
+        }
+      );
+
+      const result = await res.json();
+      if (!res.ok) throw new Error(result.message || "Login failed");
+console.log();
+
+      const user = result.USER;
+      const token = result.message;
+      const userRole = user?.Role;
+
+      if (!userRole || !token) throw new Error("Missing user role or token");
+
+      localStorage.setItem("token", token);
+      localStorage.setItem("role", userRole);
+      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("userId", user?._id);
+
+      toast.success("Login successful");
+
+      setTimeout(() => {
+        switch (userRole.toLowerCase()) {
+          case "USER":
+            router.push("/SellCar");
+            break;
+          case "ADMIN":
+            router.push("/admin/dashboard");
+            break;
+          default:
+            throw new Error("Unknown user role");
+        }
+      }, 1500);
+    } catch (err) {
+      let errorMessage = "An unknown error occurred";
+      if (err instanceof Error) {
+        errorMessage = err.message;
+      } else if (typeof err === "string") {
+        errorMessage = err;
+      }
+      toast.error(`Login failed: ${errorMessage}`);
+    } finally {
+      setIsLoading(false);
+      reset();
     }
   };
 
@@ -27,19 +85,17 @@ export default function LoginPage() {
             Welcome back! Please sign in to your account.
           </p>
         </div>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-white">
               Email address
             </label>
             <input
               id="email"
-              name="email"
               type="email"
               autoComplete="email"
               required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              {...register("email")}
               className="mt-1 block w-full rounded-md border-gray-300 bg-white text-gray-900 p-2 focus:border-teal-500 focus:ring-teal-500 focus:outline-none"
             />
           </div>
@@ -49,20 +105,14 @@ export default function LoginPage() {
             </label>
             <input
               id="password"
-              name="password"
               type="password"
               autoComplete="current-password"
               required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              {...register("password")}
               className="mt-1 block w-full rounded-md border-gray-300 bg-white text-gray-900 p-2 focus:border-teal-500 focus:ring-teal-500 focus:outline-none"
             />
-            {/* Forgot Password link */}
             <div className="mt-2 text-right">
-              <a
-                href="/auth/forgot-password"
-                className="text-sm text-gray-200 hover:text-white"
-              >
+              <a href="/auth/forgot-password" className="text-sm text-gray-200 hover:text-white">
                 Forgot password?
               </a>
             </div>
@@ -71,17 +121,15 @@ export default function LoginPage() {
             <button
               type="submit"
               className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+              disabled={isLoading}
             >
-              Sign In
+              {isLoading ? "Signing In..." : "Sign In"}
             </button>
           </div>
         </form>
         <div className="text-center text-sm text-gray-200">
           Don’t have an account?{" "}
-          <a
-            href="/auth/register"
-            className="font-medium text-white hover:text-gray-200"
-          >
+          <a href="/auth/register" className="font-medium text-white hover:text-gray-200">
             Sign up
           </a>
         </div>
