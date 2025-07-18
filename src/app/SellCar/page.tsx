@@ -196,6 +196,99 @@ export default function SellCarPage() {
             />
           </div>
 
+          <div className="flex gap-3 mb-4">
+            <button
+              type="button"
+              onClick={() => setCondition("new")}
+              className={`px-4 py-2 border rounded-full ${
+                condition === "new"
+                  ? "bg-gray-100 border-black"
+                  : "border-gray-300"
+              }`}
+            >
+              New car
+            </button>
+            <button
+              type="button"
+              onClick={() => setCondition("used")}
+              className={`px-4 py-2 border rounded-full ${
+                condition === "used"
+                  ? "bg-gray-100 border-black"
+                  : "border-gray-300"
+              }`}
+            >
+              Used car
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div>
+              <label
+                htmlFor="carBrand"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Car Brand *
+              </label>
+              <select
+                id="carBrand"
+                className="border border-gray-300 p-2 rounded-md w-full"
+              >
+                <option value="">Select a brand</option>
+                <option value="mercedes">Mercedes-Benz</option>
+                <option value="toyota">Toyota</option>
+                <option value="bmw">BMW</option>
+                <option value="audi">Audi</option>
+                <option value="honda">Honda</option>
+              </select>
+            </div>
+            <div>
+              <label
+                htmlFor="carModel"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Car Model *
+              </label>
+              <select
+                id="carModel"
+                className="border border-gray-300 p-2 rounded-md w-full"
+              >
+                <option value="">Select a model</option>
+                <option value="a2025">A2025</option>
+                <option value="civic">Civic</option>
+                <option value="corolla">Corolla</option>
+                <option value="x5">X5</option>
+                <option value="a4">A4</option>
+              </select>
+            </div>
+            <div>
+              <label
+                htmlFor="manufacturingYear"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Manufacturing Year
+              </label>
+              <input
+                type="number"
+                id="manufacturingYear"
+                placeholder="2021"
+                className="border border-gray-300 p-2 rounded-md w-full"
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="mileage"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Mileage *
+              </label>
+              <input
+                type="text"
+                id="mileage"
+                placeholder="K miles"
+                className="border border-gray-300 p-2 rounded-md w-full"
+              />
+            </div>
+          </div>
           {/* Body type */}
           <div className="mt-5">
             <h3 className="text-sm font-medium mb-2">Body type *</h3>
@@ -240,90 +333,6 @@ export default function SellCarPage() {
                 />
                 <span className="text-xs mt-1">Coupe</span>
               </button>
-            </div>
-          </div>
-
-          <div className="flex gap-3 mb-4">
-            <button
-              type="button"
-              onClick={() => setCondition("new")}
-              className={`px-4 py-2 border rounded-full ${
-                condition === "new"
-                  ? "bg-gray-100 border-black"
-                  : "border-gray-300"
-              }`}
-            >
-              New car
-            </button>
-            <button
-              type="button"
-              onClick={() => setCondition("used")}
-              className={`px-4 py-2 border rounded-full ${
-                condition === "used"
-                  ? "bg-gray-100 border-black"
-                  : "border-gray-300"
-              }`}
-            >
-              Used car
-            </button>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <div>
-              <label
-                htmlFor="carBrand"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
-                Car Brand *
-              </label>
-              <input
-                type="text"
-                id="carBrand"
-                placeholder="Mercedes-Benz"
-                className="border border-gray-300 p-2 rounded-md w-full"
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="carModel"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
-                Car Model *
-              </label>
-              <input
-                type="text"
-                id="carModel"
-                placeholder="A2025"
-                className="border border-gray-300 p-2 rounded-md w-full"
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="manufacturingYear"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
-                Manufacturing Year
-              </label>
-              <input
-                type="number"
-                id="manufacturingYear"
-                placeholder="2021"
-                className="border border-gray-300 p-2 rounded-md w-full"
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="mileage"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
-                Mileage *
-              </label>
-              <input
-                type="text"
-                id="mileage"
-                placeholder="K miles"
-                className="border border-gray-300 p-2 rounded-md w-full"
-              />
             </div>
           </div>
 
@@ -382,65 +391,82 @@ export default function SellCarPage() {
         <div className="w-full max-w-4xl bg-white p-8 rounded-lg shadow mb-8">
           <h2 className="text-2xl font-semibold mb-6">Specifications</h2>
           <div className="space-y-4">
-            <div>
-              <label
-                htmlFor="driveType"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Drive type *
-              </label>
-              <select
-                id="driveType"
-                className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-gray-500 focus:ring-blue-500 focus:border-blue-500"
-              >
-                <option>Select drive type</option>
-                {/* Add options as needed */}
-              </select>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label
+                  htmlFor="driveType"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Drive type *
+                </label>
+                <select
+                  id="driveType"
+                  className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-gray-500 focus:ring-blue-500 focus:border-blue-500"
+                >
+                  <option>Select drive type</option>
+                  <option value="fwd">FWD (Front-Wheel Drive)</option>
+                  <option value="rwd">RWD (Rear-Wheel Drive)</option>
+                  <option value="awd">AWD (All-Wheel Drive)</option>
+                  <option value="4wd">4WD (Four-Wheel Drive)</option>
+                </select>
+              </div>
+              <div>
+                <label
+                  htmlFor="engine"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Engine *
+                </label>
+                <select
+                  id="engine"
+                  className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-gray-500 focus:ring-blue-500 focus:border-blue-500"
+                >
+                  <option>Select engine</option>
+                  <option value="v4">V4</option>
+                  <option value="v6">V6</option>
+                  <option value="v8">V8</option>
+                  <option value="electric">Electric Motor</option>
+                  <option value="hybrid">Hybrid</option>
+                </select>
+              </div>
             </div>
-            <div>
-              <label
-                htmlFor="engine"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Engine *
-              </label>
-              <select
-                id="engine"
-                className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-gray-500 focus:ring-blue-500 focus:border-blue-500"
-              >
-                <option>Select engine</option>
-                {/* Add options as needed */}
-              </select>
-            </div>
-            <div>
-              <label
-                htmlFor="transmission"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Transmission *
-              </label>
-              <select
-                id="transmission"
-                className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-gray-500 focus:ring-blue-500 focus:border-blue-500"
-              >
-                <option>7-Speed Shiftable Automatic</option>
-                {/* Add other options as needed */}
-              </select>
-            </div>
-            <div>
-              <label
-                htmlFor="fuelType"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Fuel type *
-              </label>
-              <select
-                id="fuelType"
-                className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-gray-500 focus:ring-blue-500 focus:border-blue-500"
-              >
-                <option>Gasoline</option>
-                {/* Add other options as needed */}
-              </select>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label
+                  htmlFor="transmission"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Transmission *
+                </label>
+                <select
+                  id="transmission"
+                  className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-gray-500 focus:ring-blue-500 focus:border-blue-500"
+                >
+                  <option>7-Speed Shiftable Automatic</option>
+                  <option value="manual">6-Speed Manual</option>
+                  <option value="auto">8-Speed Automatic</option>
+                  <option value="cvt">
+                    Continuously Variable Transmission (CVT)
+                  </option>
+                </select>
+              </div>
+              <div>
+                <label
+                  htmlFor="fuelType"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Fuel type *
+                </label>
+                <select
+                  id="fuelType"
+                  className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-gray-500 focus:ring-blue-500 focus:border-blue-500"
+                >
+                  <option>Gasoline</option>
+                  <option value="diesel">Diesel</option>
+                  <option value="electric">Electric</option>
+                  <option value="hybrid">Hybrid</option>
+                </select>
+              </div>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
@@ -455,7 +481,10 @@ export default function SellCarPage() {
                   className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-gray-500 focus:ring-blue-500 focus:border-blue-500"
                 >
                   <option>Miles per gallon</option>
-                  {/* Add options as needed */}
+                  <option value="20">20 MPG</option>
+                  <option value="25">25 MPG</option>
+                  <option value="30">30 MPG</option>
+                  <option value="35">35 MPG</option>
                 </select>
               </div>
               <div>
@@ -470,7 +499,10 @@ export default function SellCarPage() {
                   className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-gray-500 focus:ring-blue-500 focus:border-blue-500"
                 >
                   <option>Miles per gallon</option>
-                  {/* Add options as needed */}
+                  <option value="25">25 MPG</option>
+                  <option value="30">30 MPG</option>
+                  <option value="35">35 MPG</option>
+                  <option value="40">40 MPG</option>
                 </select>
               </div>
             </div>
@@ -486,8 +518,12 @@ export default function SellCarPage() {
                   id="exteriorColor"
                   className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-gray-500 focus:ring-blue-500 focus:border-blue-500"
                 >
-                  <option></option>
-                  {/* Add options as needed */}
+                  <option>Select color</option>
+                  <option value="black">Black</option>
+                  <option value="white">White</option>
+                  <option value="silver">Silver</option>
+                  <option value="blue">Blue</option>
+                  <option value="red">Red</option>
                 </select>
               </div>
               <div>
@@ -501,8 +537,11 @@ export default function SellCarPage() {
                   id="interiorColor"
                   className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-gray-500 focus:ring-blue-500 focus:border-blue-500"
                 >
-                  <option></option>
-                  {/* Add options as needed */}
+                  <option>Select color</option>
+                  <option value="black">Black</option>
+                  <option value="beige">Beige</option>
+                  <option value="gray">Gray</option>
+                  <option value="brown">Brown</option>
                 </select>
               </div>
             </div>
