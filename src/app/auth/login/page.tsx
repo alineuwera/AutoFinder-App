@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
+import AuthContext from "@/context/auth-context"; // ✅ Import context
 
 type FormData = {
   email: string;
@@ -12,46 +13,56 @@ type FormData = {
 
 export default function LoginPage() {
   const router = useRouter();
+  const { login, user } = useContext(AuthContext); // ✅ Use context
   const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-  } = useForm<FormData>();
+  const { register, handleSubmit, reset } = useForm<FormData>();
+
+  // ✅ Redirect if already logged in
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    const storedRole = localStorage.getItem("role");
+    if (storedUser && storedRole) {
+      if (storedRole === "USER") {
+        router.push("/SellCar");
+      } else if (storedRole === "ADMIN") {
+        router.push("/admin/dashboard");
+      }
+    }
+  }, []);
 
   const onSubmit = async (data: FormData) => {
     setIsLoading(true);
+    setMessage(null);
     try {
-      const res = await fetch(
-        "https://carfinder-894g.onrender.com/api/auth/login",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data),
-          credentials: "include",
-        }
-      );
+      const res = await fetch("https://carfinder-894g.onrender.com/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+        credentials: "include",
+      });
 
       const result = await res.json();
       if (!res.ok) throw new Error(result.message || "Login failed");
-console.log();
 
-      const user = result.USER;
-      const token = result.message;
-      const userRole = user?.Role;
+      const user = result.user;
+      const token = result.token;
+      const userRole = user?.role;
 
       if (!userRole || !token) throw new Error("Missing user role or token");
 
       localStorage.setItem("token", token);
       localStorage.setItem("role", userRole);
       localStorage.setItem("user", JSON.stringify(user));
-      localStorage.setItem("userId", user?._id);
+      localStorage.setItem("userId", user.id);
 
-      toast.success("Login successful");
+      login(user); // ✅ Tell context that user is now logged in
+
+      setMessage({ type: "success", text: "Login successful! Redirecting..." });
 
       setTimeout(() => {
-        switch (userRole.toLowerCase()) {
+        switch (userRole) {
           case "USER":
             router.push("/SellCar");
             break;
@@ -69,7 +80,7 @@ console.log();
       } else if (typeof err === "string") {
         errorMessage = err;
       }
-      toast.error(`Login failed: ${errorMessage}`);
+      setMessage({ type: "error", text: ` ${errorMessage}` });
     } finally {
       setIsLoading(false);
       reset();
@@ -120,13 +131,24 @@ console.log();
           <div>
             <button
               type="submit"
-              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
               disabled={isLoading}
+              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
             >
               {isLoading ? "Signing In..." : "Sign In"}
             </button>
           </div>
         </form>
+
+        {message && (
+          <div
+            className={`mt-4 text-center text-sm ${
+              message.type === "success" ? "text-green-400" : "text-red-400"
+            }`}
+          >
+            {message.text}
+          </div>
+        )}
+
         <div className="text-center text-sm text-gray-200">
           Don’t have an account?{" "}
           <a href="/auth/register" className="font-medium text-white hover:text-gray-200">
