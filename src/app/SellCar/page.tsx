@@ -1,14 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { FiHeart } from "react-icons/fi";
 import { PiBellRingingLight } from "react-icons/pi";
 import { HiArrowsRightLeft } from "react-icons/hi2";
 import { TbManualGearbox } from "react-icons/tb";
-import { MapPin, Gauge, Fuel, Eye, Briefcase, User, CameraIcon, Upload } from "lucide-react";
+import UploadImage from "@/components/UploadImage";
+import {
+  MapPin,
+  Gauge,
+  Fuel,
+  Eye,
+  Briefcase,
+  User,
+  CameraIcon,
+  Upload,
+} from "lucide-react";
+import AuthContext from "@/context/auth-context";
 
-// Define types
 type CategoryKey = "exterior" | "interior" | "safety";
 type FeatureKey =
   | "multiZoneAC"
@@ -28,10 +39,16 @@ type FeatureKey =
   | "universalGarageDoorOpener";
 
 export default function SellCarPage() {
+  const { user } = useContext(AuthContext);
+  const router = useRouter();
+
   const [role, setRole] = useState("private");
   const [condition, setCondition] = useState("new");
+  const [uploading, setUploading] = useState(false);
+  const [uploadedImages, setUploadedImages] = useState<string[]>([]);
+  const [uploadText, setUploadText] = useState("");
+  const [imageSelected, setImageSelected] = useState<string | null>(null);
 
-  // State for Features checkboxes
   const [features, setFeatures] = useState<{
     [key in FeatureKey]: boolean;
   }>({
@@ -52,7 +69,6 @@ export default function SellCarPage() {
     universalGarageDoorOpener: true,
   });
 
-  // State for category expansion
   const [expandedCategories, setExpandedCategories] = useState<{
     [key in CategoryKey]: boolean;
   }>({
@@ -61,9 +77,29 @@ export default function SellCarPage() {
     safety: false,
   });
 
+  useEffect(() => {
+    if (!user) {
+      router.push("/auth/login");
+    }
+  }, [user, router]);
+
+  useEffect(() => {
+    const savedImages = localStorage.getItem("uploadedImages");
+    if (savedImages) {
+      setUploadedImages(JSON.parse(savedImages));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("uploadedImages", JSON.stringify(uploadedImages));
+  }, [uploadedImages]);
+
+  if (!user) {
+    return <div className="p-4 text-center">Redirecting to login...</div>;
+  }
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission here
   };
 
   const toggleCategory = (category: CategoryKey) => {
@@ -80,12 +116,50 @@ export default function SellCarPage() {
     }));
   };
 
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadText("Uploading...");
+    setImageSelected(URL.createObjectURL(file));
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const contentType = res.headers.get("content-type");
+
+      if (contentType && contentType.includes("application/json")) {
+        const data = await res.json();
+
+        if (res.ok && data.url) {
+          setUploadedImages((prev) => [...prev, data.url]);
+          setUploadText("Uploaded ✅");
+        } else {
+          console.error("Upload failed:", data.error);
+          setUploadText("Upload failed ❌");
+        }
+      } else {
+        const errorText = await res.text();
+        console.error("Non-JSON error:", errorText);
+        setUploadText("Upload failed ❌");
+      }
+    } catch (err) {
+      console.error("Error uploading:", err);
+      setUploadText("Upload error ❌");
+    }
+  };
+
   return (
     <div className="flex flex-col lg:flex-row items-start justify-center min-h-screen bg-gray-100 p-6 gap-6 w-full">
       <div className="">
         <div className="flex-1 flex flex-col gap-8">
           <h1 className="text-2xl font-bold mt-15">Sell Car</h1>
-          {/* Photos / Videos */}
           <div className="w-full max-w-4xl bg-white p-8 rounded-lg shadow mb-8">
             <h2 className="text-2xl font-semibold mb-4">Photos / videos</h2>
             <p className="text-sm text-gray-500 mb-4">
@@ -93,46 +167,24 @@ export default function SellCarPage() {
               main picture first.
             </p>
             <div className="flex flex-wrap gap-4 mb-4">
-              <div className="rounded-md flex items-center justify-center">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleUpload}
+                className="block w-full mt-2"
+              />
+
+              {uploading && <p>Uploading...</p>}
+              {uploadedImages.map((url, index) => (
                 <Image
-                  src="/images/suv.jpg"
-                  alt="Car Image"
+                  key={index}
+                  src={url}
+                  alt={`Uploaded ${index}`}
                   width={200}
                   height={200}
-                  className="rounded-lg"
+                  className="rounded"
                 />
-              </div>
-              <div className="rounded-md flex items-center justify-center">
-                <Image
-                  src="/images/suv.jpg"
-                  alt="Car Image"
-                  width={200}
-                  height={200}
-                  className="rounded-lg"
-                />
-              </div>
-              <div className="rounded-md flex items-center justify-center">
-                <Image
-                  src="/images/suv.jpg"
-                  alt="Car Image"
-                  width={200}
-                  height={200}
-                  className="rounded-lg"
-                />
-              </div>
-              <div className="flex items-center justify-center">
-                <Image
-                  src="/images/suv.jpg"
-                  alt="Car Image"
-                  width={200}
-                  height={200}
-                  className="rounded-lg"
-                />
-              </div>
-              <div className="w-48 h-30 border-2 border-gray-100 rounded-lg flex items-center justify-center bg-gray-100 text-center text-gray-500 cursor-pointer">
-                <Upload size={15} />
-                Upload Photos/Videos
-              </div>
+              ))}
             </div>
             <label htmlFor="" className="font-semibold">
               Link to the video tour
@@ -144,771 +196,721 @@ export default function SellCarPage() {
             />
           </div>
 
+          {/* Body type */}
+          <div className="mt-5">
+            <h3 className="text-sm font-medium mb-2">Body type *</h3>
+            <div className="flex gap-3">
+              <button className="flex flex-col items-center rounded-md border border-gray-100 py-2 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-300">
+                <Image
+                  src="/images/sedan.jpg"
+                  alt="Sedan"
+                  height={200}
+                  width={200}
+                  className="object-contain"
+                />
+                <span className="text-sm mt-1">Sedan</span>
+              </button>
+              <button className="flex flex-col items-center rounded-md border border-gray-100 py-2 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-300">
+                <Image
+                  src="/images/sedan.jpg"
+                  alt="Convertible"
+                  height={200}
+                  width={200}
+                  className="object-contain"
+                />
+                <span className="text-xs mt-1">Convertible</span>
+              </button>
+              <button className="flex flex-col items-center rounded-md border border-gray-100 py-2 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-300">
+                <Image
+                  src="/images/sedan.jpg"
+                  alt="SUV"
+                  height={200}
+                  width={200}
+                  className="object-contain"
+                />
+                <span className="text-xs mt-1">SUV</span>
+              </button>
+              <button className="flex flex-col items-center rounded-md border border-gray-100 py-2 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-300">
+                <Image
+                  src="/images/sedan.jpg"
+                  alt="Coupe"
+                  height={200}
+                  width={200}
+                  className="object-contain"
+                />
+                <span className="text-xs mt-1">Coupe</span>
+              </button>
+            </div>
+          </div>
 
-        {/* Body type */}
-        <div className="mt-5">
-          <h3 className="text-sm font-medium mb-2">Body type *</h3>
-          <div className="flex gap-3">
-            <button className="flex flex-col items-center rounded-md border border-gray-100 py-2 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-300">
-              <Image
-                src="/images/sedan.jpg"
-                alt="Sedan"
-                height={200}
-                width={200}
-                className="object-contain"
-              />
-              <span className="text-sm mt-1">Sedan</span>
+          <div className="flex gap-3 mb-4">
+            <button
+              type="button"
+              onClick={() => setCondition("new")}
+              className={`px-4 py-2 border rounded-full ${
+                condition === "new"
+                  ? "bg-gray-100 border-black"
+                  : "border-gray-300"
+              }`}
+            >
+              New car
             </button>
-            <button className="flex flex-col items-center rounded-md border border-gray-100 py-2 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-300">
-              <Image
-                src="/images/sedan.jpg"
-                alt="Convertible"
-                height={200}
-                width={200}
-                className="object-contain"
-              />
-              <span className="text-xs mt-1">Convertible</span>
+            <button
+              type="button"
+              onClick={() => setCondition("used")}
+              className={`px-4 py-2 border rounded-full ${
+                condition === "used"
+                  ? "bg-gray-100 border-black"
+                  : "border-gray-300"
+              }`}
+            >
+              Used car
             </button>
-            <button className="flex flex-col items-center rounded-md border border-gray-100 py-2 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-300">
-              <Image
-                src="/images/sedan.jpg"
-                alt="SUV"
-                height={200}
-                width={200}
-                className="object-contain"
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div>
+              <label
+                htmlFor="carBrand"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Car Brand *
+              </label>
+              <input
+                type="text"
+                id="carBrand"
+                placeholder="Mercedes-Benz"
+                className="border border-gray-300 p-2 rounded-md w-full"
               />
-              <span className="text-xs mt-1">SUV</span>
-            </button>
-            <button className="flex flex-col items-center rounded-md border border-gray-100 py-2 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-300">
-              <Image
-                src="/images/sedan.jpg"
-                alt="Coupe"
-                height={200}
-                width={200}
-                className="object-contain"
+            </div>
+            <div>
+              <label
+                htmlFor="carModel"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Car Model *
+              </label>
+              <input
+                type="text"
+                id="carModel"
+                placeholder="A2025"
+                className="border border-gray-300 p-2 rounded-md w-full"
               />
-              <span className="text-xs mt-1">Coupe</span>
-            </button>
+            </div>
+            <div>
+              <label
+                htmlFor="manufacturingYear"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Manufacturing Year
+              </label>
+              <input
+                type="number"
+                id="manufacturingYear"
+                placeholder="2021"
+                className="border border-gray-300 p-2 rounded-md w-full"
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="mileage"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Mileage *
+              </label>
+              <input
+                type="text"
+                id="mileage"
+                placeholder="K miles"
+                className="border border-gray-300 p-2 rounded-md w-full"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
+            <div>
+              <label
+                htmlFor="location"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Location *
+              </label>
+              <input
+                type="text"
+                id="location"
+                placeholder="Chicago"
+                className="border border-gray-300 p-2 rounded-md w-full"
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="radius"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Radius
+              </label>
+              <input
+                type="text"
+                id="radius"
+                placeholder="50 mi"
+                className="border border-gray-300 p-2 rounded-md w-full"
+              />
+            </div>
+          </div>
+          <div className="bg-gray-100 p-4 rounded-md mt-3">
+            <div className="mt-5">
+              <h2 className="font-bold text-xl mb-3">
+                Cars with a verified VIN code sell faster
+              </h2>
+              <p className="text-gray-600 mb-3">
+                We will check the car for free in the registers of the Ministry
+                of Internals Affairs, the open data portal and dealer databases.
+              </p>
+              <div className="mt-5 flex items-center gap-2">
+                <input
+                  type="text"
+                  placeholder="VIN code"
+                  className="border p-2 rounded-md bg-white"
+                />
+                <CameraIcon />
+              </div>
+            </div>
           </div>
         </div>
 
-
-            <div className="flex gap-3 mb-4">
-              <button
-                type="button"
-                onClick={() => setCondition("new")}
-                className={`px-4 py-2 border rounded-full ${
-                  condition === "new"
-                    ? "bg-gray-100 border-black"
-                    : "border-gray-300"
-                }`}
+        {/* Specifications */}
+        <div className="w-full max-w-4xl bg-white p-8 rounded-lg shadow mb-8">
+          <h2 className="text-2xl font-semibold mb-6">Specifications</h2>
+          <div className="space-y-4">
+            <div>
+              <label
+                htmlFor="driveType"
+                className="block text-sm font-medium text-gray-700"
               >
-                New car
-              </button>
-              <button
-                type="button"
-                onClick={() => setCondition("used")}
-                className={`px-4 py-2 border rounded-full ${
-                  condition === "used"
-                    ? "bg-gray-100 border-black"
-                    : "border-gray-300"
-                }`}
+                Drive type *
+              </label>
+              <select
+                id="driveType"
+                className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-gray-500 focus:ring-blue-500 focus:border-blue-500"
               >
-                Used car
-              </button>
+                <option>Select drive type</option>
+                {/* Add options as needed */}
+              </select>
             </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <div>
-                <label
-                  htmlFor="carBrand"
-                  className="block text-sm font-medium text-gray-700 mb-2"
-                >
-                  Car Brand *
-                </label>
-                <input
-                  type="text"
-                  id="carBrand"
-                  placeholder="Mercedes-Benz"
-                  className="border border-gray-300 p-2 rounded-md w-full"
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="carModel"
-                  className="block text-sm font-medium text-gray-700 mb-2"
-                >
-                  Car Model *
-                </label>
-                <input
-                  type="text"
-                  id="carModel"
-                  placeholder="A2025"
-                  className="border border-gray-300 p-2 rounded-md w-full"
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="manufacturingYear"
-                  className="block text-sm font-medium text-gray-700 mb-2"
-                >
-                  Manufacturing Year
-                </label>
-                <input
-                  type="number"
-                  id="manufacturingYear"
-                  placeholder="2021"
-                  className="border border-gray-300 p-2 rounded-md w-full"
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="mileage"
-                  className="block text-sm font-medium text-gray-700 mb-2"
-                >
-                  Mileage *
-                </label>
-                <input
-                  type="text"
-                  id="mileage"
-                  placeholder="K miles"
-                  className="border border-gray-300 p-2 rounded-md w-full"
-                />
-              </div>
+            <div>
+              <label
+                htmlFor="engine"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Engine *
+              </label>
+              <select
+                id="engine"
+                className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-gray-500 focus:ring-blue-500 focus:border-blue-500"
+              >
+                <option>Select engine</option>
+                {/* Add options as needed */}
+              </select>
             </div>
-
-            {/* Body type */}
-            <div className="mt-5">
-              <h3 className="text-sm font-medium mb-2">Body type *</h3>
-              <div className="flex gap-3">
-                <button className="flex flex-col items-center rounded-md border border-gray-100 py-2 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-300">
-                  <Image
-                    src="/images/sedan.jpg"
-                    alt="Sedan"
-                    height={200}
-                    width={200}
-                    className="object-contain"
-                  />
-                  <span className="text-sm mt-1">Sedan</span>
-                </button>
-                <button className="flex flex-col items-center rounded-md border border-gray-100 py-2 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-300">
-                  <Image
-                    src="/images/sedan.jpg"
-                    alt="Convertible"
-                    height={200}
-                    width={200}
-                    className="object-contain"
-                  />
-                  <span className="text-xs mt-1">Convertible</span>
-                </button>
-                <button className="flex flex-col items-center rounded-md border border-gray-100 py-2 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-300">
-                  <Image
-                    src="/images/sedan.jpg"
-                    alt="SUV"
-                    height={200}
-                    width={200}
-                    className="object-contain"
-                  />
-                  <span className="text-xs mt-1">SUV</span>
-                </button>
-                <button className="flex flex-col items-center rounded-md border border-gray-100 py-2 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-300">
-                  <Image
-                    src="/images/sedan.jpg"
-                    alt="Coupe"
-                    height={200}
-                    width={200}
-                    className="object-contain"
-                  />
-                  <span className="text-xs mt-1">Coupe</span>
-                </button>
-              </div>
+            <div>
+              <label
+                htmlFor="transmission"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Transmission *
+              </label>
+              <select
+                id="transmission"
+                className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-gray-500 focus:ring-blue-500 focus:border-blue-500"
+              >
+                <option>7-Speed Shiftable Automatic</option>
+                {/* Add other options as needed */}
+              </select>
             </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
+            <div>
+              <label
+                htmlFor="fuelType"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Fuel type *
+              </label>
+              <select
+                id="fuelType"
+                className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-gray-500 focus:ring-blue-500 focus:border-blue-500"
+              >
+                <option>Gasoline</option>
+                {/* Add other options as needed */}
+              </select>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
               <div>
                 <label
-                  htmlFor="location"
-                  className="block text-sm font-medium text-gray-700 mb-2"
-                >
-                  Location *
-                </label>
-                <input
-                  type="text"
-                  id="location"
-                  placeholder="Chicago"
-                  className="border border-gray-300 p-2 rounded-md w-full"
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="radius"
-                  className="block text-sm font-medium text-gray-700 mb-2"
-                >
-                  Radius
-                </label>
-                <input
-                  type="text"
-                  id="radius"
-                  placeholder="50 mi"
-                  className="border border-gray-300 p-2 rounded-md w-full"
-                />
-              </div>
-            </div>
-            <div className="bg-gray-100 p-4 rounded-md mt-3">
-              <div className="mt-5">
-                <h2 className="font-bold text-xl mb-3">
-                  Cars with a verified VIN code sell faster
-                </h2>
-                <p className="text-gray-600 mb-3">
-                  We will check the car for free in the registers of the Ministry
-                  of Internals Affairs, the open data portal and dealer databases.
-                </p>
-                <div className="mt-5 flex items-center gap-2">
-                  <input
-                    type="text"
-                    placeholder="VIN code"
-                    className="border p-2 rounded-md bg-white"
-                  />
-                  <CameraIcon />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Specifications */}
-          <div className="w-full max-w-4xl bg-white p-8 rounded-lg shadow mb-8">
-            <h2 className="text-2xl font-semibold mb-6">Specifications</h2>
-            <div className="space-y-4">
-              <div>
-                <label
-                  htmlFor="driveType"
+                  htmlFor="cityMPG"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Drive type *
+                  City MPG
                 </label>
                 <select
-                  id="driveType"
+                  id="cityMPG"
                   className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-gray-500 focus:ring-blue-500 focus:border-blue-500"
                 >
-                  <option>Select drive type</option>
+                  <option>Miles per gallon</option>
                   {/* Add options as needed */}
                 </select>
               </div>
               <div>
                 <label
-                  htmlFor="engine"
+                  htmlFor="highwayMPG"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Engine *
+                  Highway MPG
                 </label>
                 <select
-                  id="engine"
+                  id="highwayMPG"
                   className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-gray-500 focus:ring-blue-500 focus:border-blue-500"
                 >
-                  <option>Select engine</option>
+                  <option>Miles per gallon</option>
+                  {/* Add options as needed */}
+                </select>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label
+                  htmlFor="exteriorColor"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Exterior color
+                </label>
+                <select
+                  id="exteriorColor"
+                  className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-gray-500 focus:ring-blue-500 focus:border-blue-500"
+                >
+                  <option></option>
                   {/* Add options as needed */}
                 </select>
               </div>
               <div>
                 <label
-                  htmlFor="transmission"
+                  htmlFor="interiorColor"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Transmission *
+                  Interior color
                 </label>
                 <select
-                  id="transmission"
+                  id="interiorColor"
                   className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-gray-500 focus:ring-blue-500 focus:border-blue-500"
                 >
-                  <option>7-Speed Shiftable Automatic</option>
-                  {/* Add other options as needed */}
+                  <option></option>
+                  {/* Add options as needed */}
                 </select>
               </div>
-              <div>
-                <label
-                  htmlFor="fuelType"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Fuel type *
-                </label>
-                <select
-                  id="fuelType"
-                  className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-gray-500 focus:ring-blue-500 focus:border-blue-500"
-                >
-                  <option>Gasoline</option>
-                  {/* Add other options as needed */}
-                </select>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label
-                    htmlFor="cityMPG"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    City MPG
-                  </label>
-                  <select
-                    id="cityMPG"
-                    className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-gray-500 focus:ring-blue-500 focus:border-blue-500"
-                  >
-                    <option>Miles per gallon</option>
-                    {/* Add options as needed */}
-                  </select>
-                </div>
-                <div>
-                  <label
-                    htmlFor="highwayMPG"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Highway MPG
-                  </label>
-                  <select
-                    id="highwayMPG"
-                    className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-gray-500 focus:ring-blue-500 focus:border-blue-500"
-                  >
-                    <option>Miles per gallon</option>
-                    {/* Add options as needed */}
-                  </select>
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label
-                    htmlFor="exteriorColor"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Exterior color
-                  </label>
-                  <select
-                    id="exteriorColor"
-                    className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-gray-500 focus:ring-blue-500 focus:border-blue-500"
-                  >
-                    <option></option>
-                    {/* Add options as needed */}
-                  </select>
-                </div>
-                <div>
-                  <label
-                    htmlFor="interiorColor"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Interior color
-                  </label>
-                  <select
-                    id="interiorColor"
-                    className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-gray-500 focus:ring-blue-500 focus:border-blue-500"
-                  >
-                    <option></option>
-                    {/* Add options as needed */}
-                  </select>
-                </div>
-              </div>
-              <div>
-                <label
-                  htmlFor="description"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Description *
-                </label>
-                <textarea
-                  id="description"
-                  placeholder="Here you can let your imagination run wild and describe the car in the best possible way!"
-                  className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-gray-500 focus:ring-blue-500 focus:border-blue-500 h-24"
-                  maxLength={2000}
-                ></textarea>
-                <p className="text-xs text-gray-500 mt-1">
-                  Maximum 2000 characters
-                </p>
-              </div>
             </div>
-          </div>
-
-          {/* Features */}
-          <div className="w-full max-w-4xl bg-white p-8 rounded-lg shadow mb-8">
-            <h2 className="text-2xl font-semibold mb-6 text-gray-900">
-              Features
-            </h2>
-            <div className="space-y-4">
-              {/* Exterior */}
-              <div>
-                <button
-                  onClick={() => toggleCategory("exterior")}
-                  className="w-full flex justify-between items-center text-lg font-medium text-gray-900"
-                >
-                  <span>Exterior</span>
-                  <span className="text-sm text-gray-500">
-                    {expandedCategories.exterior ? "-" : "+"}
-                  </span>
-                </button>
-                {expandedCategories.exterior && (
-                  <div className="mt-2 space-y-2 pl-4">
-                    {/* Add exterior features here if needed */}
-                  </div>
-                )}
-              </div>
-
-              {/* Interior */}
-              <div>
-                <button
-                  onClick={() => toggleCategory("interior")}
-                  className="w-full flex justify-between items-center text-lg font-medium text-gray-900"
-                >
-                  <span>Interior</span>
-                  <span className="text-sm text-gray-500">
-                    {expandedCategories.interior ? "-" : "+"}
-                  </span>
-                </button>
-                {expandedCategories.interior && (
-                  <div className="mt-2 space-y-2 pl-4">
-                    <label className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        checked={features.multiZoneAC}
-                        onChange={() => handleFeatureChange("multiZoneAC")}
-                        className="w-4 h-4 text-blue-600 focus:ring-blue-500"
-                      />
-                      <span>Multi-Zone A/C</span>
-                    </label>
-                    <label className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        checked={features.adjustableSteeringWheel}
-                        onChange={() =>
-                          handleFeatureChange("adjustableSteeringWheel")
-                        }
-                        className="w-4 h-4 text-blue-600 focus:ring-blue-500"
-                      />
-                      <span>Adjustable Steering Wheel</span>
-                    </label>
-                    <label className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        checked={features.autoDimmingRearviewMirror}
-                        onChange={() =>
-                          handleFeatureChange("autoDimmingRearviewMirror")
-                        }
-                        className="w-4 h-4 text-blue-600 focus:ring-blue-500"
-                      />
-                      <span>Auto-Dimming Rearview Mirror</span>
-                    </label>
-                    <label className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        checked={features.climateControl}
-                        onChange={() => handleFeatureChange("climateControl")}
-                        className="w-4 h-4 text-blue-600 focus:ring-blue-500"
-                      />
-                      <span>Climate Control</span>
-                    </label>
-                    <label className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        checked={features.driverAdjustableLumbar}
-                        onChange={() =>
-                          handleFeatureChange("driverAdjustableLumbar")
-                        }
-                        className="w-4 h-4 text-blue-600 focus:ring-blue-500"
-                      />
-                      <span>Driver Adjustable Lumbar</span>
-                    </label>
-                    <label className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        checked={features.heatedFrontSeats}
-                        onChange={() => handleFeatureChange("heatedFrontSeats")}
-                        className="w-4 h-4 text-blue-600 focus:ring-blue-500"
-                      />
-                      <span>Heated Front Seats</span>
-                    </label>
-                    <label className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        checked={features.intermittentWipers}
-                        onChange={() => handleFeatureChange("intermittentWipers")}
-                        className="w-4 h-4 text-blue-600 focus:ring-blue-500"
-                      />
-                      <span>Intermittent Wipers</span>
-                    </label>
-                    <label className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        checked={features.leatherSeats}
-                        onChange={() => handleFeatureChange("leatherSeats")}
-                        className="w-4 h-4 text-blue-600 focus:ring-blue-500"
-                      />
-                      <span>Leather Seats</span>
-                    </label>
-                    <label className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        checked={features.passengerIlluminatedVisorMirror}
-                        onChange={() =>
-                          handleFeatureChange("passengerIlluminatedVisorMirror")
-                        }
-                        className="w-4 h-4 text-blue-600 focus:ring-blue-500"
-                      />
-                      <span>Passenger Illuminated Visor Mirror</span>
-                    </label>
-                    <label className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        checked={features.passengerAdjustableLumbar}
-                        onChange={() =>
-                          handleFeatureChange("passengerAdjustableLumbar")
-                        }
-                        className="w-4 h-4 text-blue-600 focus:ring-blue-500"
-                      />
-                      <span>Passenger Adjustable Lumbar</span>
-                    </label>
-                  </div>
-                )}
-              </div>
-
-              {/* Safety */}
-              <div>
-                <button
-                  onClick={() => toggleCategory("safety")}
-                  className="w-full flex justify-between items-center text-lg font-medium text-gray-900"
-                >
-                  <span>Safety</span>
-                  <span className="text-sm text-gray-500">
-                    {expandedCategories.safety ? "-" : "+"}
-                  </span>
-                </button>
-                {expandedCategories.safety && (
-                  <div className="mt-2 space-y-2 pl-4">
-                    <label className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        checked={features.steeringWheelAudioControls}
-                        onChange={() =>
-                          handleFeatureChange("steeringWheelAudioControls")
-                        }
-                        className="w-4 h-4 text-blue-600 focus:ring-blue-500"
-                      />
-                      <span>Steering Wheel Audio Controls</span>
-                    </label>
-                    <label className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        checked={features.powerDoorLocks}
-                        onChange={() => handleFeatureChange("powerDoorLocks")}
-                        className="w-4 h-4 text-blue-600 focus:ring-blue-500"
-                      />
-                      <span>Power Door Locks</span>
-                    </label>
-                    <label className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        checked={features.bankThroughRearSeat}
-                        onChange={() =>
-                          handleFeatureChange("bankThroughRearSeat")
-                        }
-                        className="w-4 h-4 text-blue-600 focus:ring-blue-500"
-                      />
-                      <span>Bank-Through Rear Seat</span>
-                    </label>
-                    <label className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        checked={features.passThroughRearSeat}
-                        onChange={() =>
-                          handleFeatureChange("passThroughRearSeat")
-                        }
-                        className="w-4 h-4 text-blue-600 focus:ring-blue-500"
-                      />
-                      <span>Pass-Through Rear Seat</span>
-                    </label>
-                    <label className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        checked={features.universalGarageDoorOpener}
-                        onChange={() =>
-                          handleFeatureChange("universalGarageDoorOpener")
-                        }
-                        className="w-4 h-4 text-blue-600 focus:ring-blue-500"
-                      />
-                      <span>Universal Garage Door Opener</span>
-                    </label>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {/* Price */}
-          <div className="w-full max-w-4xl bg-white p-8 rounded-lg shadow mb-8">
-            <h2 className="text-2xl font-semibold mb-6 text-gray-900">Price</h2>
-
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Price *
-              </label>
-              <div className="flex gap-2">
-                <select className="border border-gray-300 rounded-md p-2">
-                  <option>$</option>
-                  <option>€</option>
-                  <option>£</option>
-                </select>
-                <input
-                  type="number"
-                  placeholder="41900"
-                  className="w-full border border-gray-300 rounded-md p-2"
-                />
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2 mb-4">
-              <label className="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" className="sr-only peer" defaultChecked />
-                <Image
-                  src="/images/switch.png"
-                  alt="switch"
-                  width={40}
-                  height={40}
-                />
-              </label>
-              <span className="text-gray-700 text-sm font-semibold">
-                Negotiated price
-              </span>
-            </div>
-
-            <div className="space-y-3">
-              <label className="flex items-center gap-2 text-gray-700 text-sm">
-                <input
-                  type="checkbox"
-                  className="w-4 h-4 text-blue-600 focus:ring-blue-500"
-                  defaultChecked
-                />
-                Payment in installments is possible
-              </label>
-
-              <label className="flex items-center gap-2 text-gray-700 text-sm">
-                <input
-                  type="checkbox"
-                  className="w-4 h-4 text-blue-600 focus:ring-blue-500"
-                />
-                Exchange for a car is possible
-              </label>
-
-              <label className="flex items-center gap-2 text-gray-700 text-sm">
-                <input
-                  type="checkbox"
-                  className="w-4 h-4 text-blue-600 focus:ring-blue-500"
-                />
-                Uncleared car
-              </label>
-            </div>
-          </div>
-
-          {/* Contacts */}
-          <div className="w-full max-w-4xl bg-white p-8 rounded-lg shadow mb-8">
-            <h2 className="text-2xl font-semibold mb-6">Contacts</h2>
-
-            <div className="flex gap-3 mb-6">
-              <button
-                type="button"
-                onClick={() => setRole("private")}
-                className={`flex items-center gap-2 px-4 py-2 border rounded-full ${
-                  role === "private"
-                    ? "bg-gray-100 border-black"
-                    : "border-gray-300"
-                }`}
+            <div>
+              <label
+                htmlFor="description"
+                className="block text-sm font-medium text-gray-700"
               >
-                <User size={18} /> Private seller
-              </button>
+                Description *
+              </label>
+              <textarea
+                id="description"
+                placeholder="Here you can let your imagination run wild and describe the car in the best possible way!"
+                className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-gray-500 focus:ring-blue-500 focus:border-blue-500 h-24"
+                maxLength={2000}
+              ></textarea>
+              <p className="text-xs text-gray-500 mt-1">
+                Maximum 2000 characters
+              </p>
+            </div>
+          </div>
+        </div>
 
+        {/* Features */}
+        <div className="w-full max-w-4xl bg-white p-8 rounded-lg shadow mb-8">
+          <h2 className="text-2xl font-semibold mb-6 text-gray-900">
+            Features
+          </h2>
+          <div className="space-y-4">
+            {/* Exterior */}
+            <div>
               <button
-                type="button"
-                onClick={() => setRole("dealer")}
-                className={`flex items-center gap-2 px-4 py-2 border rounded-full ${
-                  role === "dealer"
-                    ? "bg-gray-100 border-black"
-                    : "border-gray-300"
-                }`}
+                onClick={() => toggleCategory("exterior")}
+                className="w-full flex justify-between items-center text-lg font-medium text-gray-900"
               >
-                <Briefcase size={18} /> Dealer
+                <span>Exterior</span>
+                <span className="text-sm text-gray-500">
+                  {expandedCategories.exterior ? "-" : "+"}
+                </span>
               </button>
+              {expandedCategories.exterior && (
+                <div className="mt-2 space-y-2 pl-4">
+                  {/* Add exterior features here if needed */}
+                </div>
+              )}
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <div>
-                  <label className="block text-sm font-medium mb-1">
-                    First name *
+            {/* Interior */}
+            <div>
+              <button
+                onClick={() => toggleCategory("interior")}
+                className="w-full flex justify-between items-center text-lg font-medium text-gray-900"
+              >
+                <span>Interior</span>
+                <span className="text-sm text-gray-500">
+                  {expandedCategories.interior ? "-" : "+"}
+                </span>
+              </button>
+              {expandedCategories.interior && (
+                <div className="mt-2 space-y-2 pl-4">
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      checked={features.multiZoneAC}
+                      onChange={() => handleFeatureChange("multiZoneAC")}
+                      className="w-4 h-4 text-blue-600 focus:ring-blue-500"
+                    />
+                    <span>Multi-Zone A/C</span>
                   </label>
-                  <input
-                    type="text"
-                    required
-                    className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-black"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-1">
-                    Last name *
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      checked={features.adjustableSteeringWheel}
+                      onChange={() =>
+                        handleFeatureChange("adjustableSteeringWheel")
+                      }
+                      className="w-4 h-4 text-blue-600 focus:ring-blue-500"
+                    />
+                    <span>Adjustable Steering Wheel</span>
                   </label>
-                  <input
-                    type="text"
-                    required
-                    className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-black"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-1">
-                    Email *
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      checked={features.autoDimmingRearviewMirror}
+                      onChange={() =>
+                        handleFeatureChange("autoDimmingRearviewMirror")
+                      }
+                      className="w-4 h-4 text-blue-600 focus:ring-blue-500"
+                    />
+                    <span>Auto-Dimming Rearview Mirror</span>
                   </label>
-                  <input
-                    type="email"
-                    required
-                    className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-black"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-1">
-                    Phone number *
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      checked={features.climateControl}
+                      onChange={() => handleFeatureChange("climateControl")}
+                      className="w-4 h-4 text-blue-600 focus:ring-blue-500"
+                    />
+                    <span>Climate Control</span>
                   </label>
-                  <input
-                    type="tel"
-                    placeholder="(__) __-____"
-                    required
-                    className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-black"
-                  />
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      checked={features.driverAdjustableLumbar}
+                      onChange={() =>
+                        handleFeatureChange("driverAdjustableLumbar")
+                      }
+                      className="w-4 h-4 text-blue-600 focus:ring-blue-500"
+                    />
+                    <span>Driver Adjustable Lumbar</span>
+                  </label>
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      checked={features.heatedFrontSeats}
+                      onChange={() => handleFeatureChange("heatedFrontSeats")}
+                      className="w-4 h-4 text-blue-600 focus:ring-blue-500"
+                    />
+                    <span>Heated Front Seats</span>
+                  </label>
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      checked={features.intermittentWipers}
+                      onChange={() => handleFeatureChange("intermittentWipers")}
+                      className="w-4 h-4 text-blue-600 focus:ring-blue-500"
+                    />
+                    <span>Intermittent Wipers</span>
+                  </label>
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      checked={features.leatherSeats}
+                      onChange={() => handleFeatureChange("leatherSeats")}
+                      className="w-4 h-4 text-blue-600 focus:ring-blue-500"
+                    />
+                    <span>Leather Seats</span>
+                  </label>
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      checked={features.passengerIlluminatedVisorMirror}
+                      onChange={() =>
+                        handleFeatureChange("passengerIlluminatedVisorMirror")
+                      }
+                      className="w-4 h-4 text-blue-600 focus:ring-blue-500"
+                    />
+                    <span>Passenger Illuminated Visor Mirror</span>
+                  </label>
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      checked={features.passengerAdjustableLumbar}
+                      onChange={() =>
+                        handleFeatureChange("passengerAdjustableLumbar")
+                      }
+                      className="w-4 h-4 text-blue-600 focus:ring-blue-500"
+                    />
+                    <span>Passenger Adjustable Lumbar</span>
+                  </label>
                 </div>
-              </div>
+              )}
+            </div>
 
-              <div className="flex items-center gap-2">
-                <input type="checkbox" id="coop" className="w-4 h-4" />
-                <label htmlFor="coop" className="text-sm">
-                  Ready to cooperate with dealers
-                </label>
-              </div>
-            </form>
+            {/* Safety */}
+            <div>
+              <button
+                onClick={() => toggleCategory("safety")}
+                className="w-full flex justify-between items-center text-lg font-medium text-gray-900"
+              >
+                <span>Safety</span>
+                <span className="text-sm text-gray-500">
+                  {expandedCategories.safety ? "-" : "+"}
+                </span>
+              </button>
+              {expandedCategories.safety && (
+                <div className="mt-2 space-y-2 pl-4">
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      checked={features.steeringWheelAudioControls}
+                      onChange={() =>
+                        handleFeatureChange("steeringWheelAudioControls")
+                      }
+                      className="w-4 h-4 text-blue-600 focus:ring-blue-500"
+                    />
+                    <span>Steering Wheel Audio Controls</span>
+                  </label>
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      checked={features.powerDoorLocks}
+                      onChange={() => handleFeatureChange("powerDoorLocks")}
+                      className="w-4 h-4 text-blue-600 focus:ring-blue-500"
+                    />
+                    <span>Power Door Locks</span>
+                  </label>
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      checked={features.bankThroughRearSeat}
+                      onChange={() =>
+                        handleFeatureChange("bankThroughRearSeat")
+                      }
+                      className="w-4 h-4 text-blue-600 focus:ring-blue-500"
+                    />
+                    <span>Bank-Through Rear Seat</span>
+                  </label>
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      checked={features.passThroughRearSeat}
+                      onChange={() =>
+                        handleFeatureChange("passThroughRearSeat")
+                      }
+                      className="w-4 h-4 text-blue-600 focus:ring-blue-500"
+                    />
+                    <span>Pass-Through Rear Seat</span>
+                  </label>
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      checked={features.universalGarageDoorOpener}
+                      onChange={() =>
+                        handleFeatureChange("universalGarageDoorOpener")
+                      }
+                      className="w-4 h-4 text-blue-600 focus:ring-blue-500"
+                    />
+                    <span>Universal Garage Door Opener</span>
+                  </label>
+                </div>
+              )}
+            </div>
           </div>
-          {/* Submit Buttons */}
-          <div className="w-full max-w-4xl flex justify-between items-center flex-wrap gap-4">
+        </div>
+
+        {/* Price */}
+        <div className="w-full max-w-4xl bg-white p-8 rounded-lg shadow mb-8">
+          <h2 className="text-2xl font-semibold mb-6 text-gray-900">Price</h2>
+
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Price *
+            </label>
+            <div className="flex gap-2">
+              <select className="border border-gray-300 rounded-md p-2">
+                <option>$</option>
+                <option>€</option>
+                <option>£</option>
+              </select>
+              <input
+                type="number"
+                placeholder="41900"
+                className="w-full border border-gray-300 rounded-md p-2"
+              />
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 mb-4">
+            <label className="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" className="sr-only peer" defaultChecked />
+              <Image
+                src="/images/switch.png"
+                alt="switch"
+                width={40}
+                height={40}
+              />
+            </label>
+            <span className="text-gray-700 text-sm font-semibold">
+              Negotiated price
+            </span>
+          </div>
+
+          <div className="space-y-3">
+            <label className="flex items-center gap-2 text-gray-700 text-sm">
+              <input
+                type="checkbox"
+                className="w-4 h-4 text-blue-600 focus:ring-blue-500"
+                defaultChecked
+              />
+              Payment in installments is possible
+            </label>
+
+            <label className="flex items-center gap-2 text-gray-700 text-sm">
+              <input
+                type="checkbox"
+                className="w-4 h-4 text-blue-600 focus:ring-blue-500"
+              />
+              Exchange for a car is possible
+            </label>
+
+            <label className="flex items-center gap-2 text-gray-700 text-sm">
+              <input
+                type="checkbox"
+                className="w-4 h-4 text-blue-600 focus:ring-blue-500"
+              />
+              Uncleared car
+            </label>
+          </div>
+        </div>
+
+        {/* Contacts */}
+        <div className="w-full max-w-4xl bg-white p-8 rounded-lg shadow mb-8">
+          <h2 className="text-2xl font-semibold mb-6">Contacts</h2>
+
+          <div className="flex gap-3 mb-6">
             <button
               type="button"
-              className="flex items-center gap-2 border border-gray-300 rounded-md px-4 py-2 hover:bg-gray-50"
+              onClick={() => setRole("private")}
+              className={`flex items-center gap-2 px-4 py-2 border rounded-full ${
+                role === "private"
+                  ? "bg-gray-100 border-black"
+                  : "border-gray-300"
+              }`}
             >
-              <Eye size={18} /> Detailed preview
+              <User size={18} /> Private seller
             </button>
 
             <button
-              type="submit"
-              className="flex items-center gap-2 bg-red-500 text-white px-6 py-3 rounded-md hover:bg-red-600"
+              type="button"
+              onClick={() => setRole("dealer")}
+              className={`flex items-center gap-2 px-4 py-2 border rounded-full ${
+                role === "dealer"
+                  ? "bg-gray-100 border-black"
+                  : "border-gray-300"
+              }`}
             >
-              <Image
-                src="/images/save.png" // Ensure this path is correct in your public directory
-                alt="save image"
-                height={20}
-                width={20}
-              />{" "}
-              Save and publish
+              <Briefcase size={18} /> Dealer
             </button>
           </div>
+
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div>
+                <label className="block text-sm font-medium mb-1">
+                  First name *
+                </label>
+                <input
+                  type="text"
+                  required
+                  className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-black"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-1">
+                  Last name *
+                </label>
+                <input
+                  type="text"
+                  required
+                  className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-black"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-1">
+                  Email *
+                </label>
+                <input
+                  type="email"
+                  required
+                  className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-black"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-1">
+                  Phone number *
+                </label>
+                <input
+                  type="tel"
+                  placeholder="(__) __-____"
+                  required
+                  className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-black"
+                />
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <input type="checkbox" id="coop" className="w-4 h-4" />
+              <label htmlFor="coop" className="text-sm">
+                Ready to cooperate with dealers
+              </label>
+            </div>
+          </form>
+        </div>
+        {/* Submit Buttons */}
+        <div className="w-full max-w-4xl flex justify-between items-center flex-wrap gap-4">
+          <button
+            type="button"
+            className="flex items-center gap-2 border border-gray-300 rounded-md px-4 py-2 hover:bg-gray-50"
+          >
+            <Eye size={18} /> Detailed preview
+          </button>
+
+          <button
+            type="submit"
+            className="flex items-center gap-2 bg-red-500 text-white px-6 py-3 rounded-md hover:bg-red-600"
+          >
+            <Image
+              src="/images/save.png" // Ensure this path is correct in your public directory
+              alt="save image"
+              height={20}
+              width={20}
+            />{" "}
+            Save and publish
+          </button>
         </div>
 
         {/* QUICK PREVIEW */}
@@ -983,5 +985,6 @@ export default function SellCarPage() {
           </div>
         </div>
       </div>
+    </div>
   );
 }
