@@ -16,7 +16,7 @@ const CarTypesSection = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-semibold text-gray-900">Popular car body types</h1>
-          <Link href="/ListGrid" className="text-black hover:underline text-sm">
+          <Link href="" className="text-black hover:underline text-sm">
         View all <span>&rsaquo;</span>
       </Link>
         </div>

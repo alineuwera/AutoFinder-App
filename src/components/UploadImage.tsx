@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 
 const CLOUD_NAME = "drfnqzkaa"; // 🔁 replace with yours
@@ -51,7 +52,7 @@ export default function UploadImage() {
       {imageUrl && (
         <div>
           <p className="text-green-600 font-semibold">Upload successful!</p>
-          <img src={imageUrl} alt="Uploaded" className="w-48 h-auto rounded mt-2" />
+          <Image src={imageUrl} alt="Uploaded" className="w-48 h-auto rounded mt-2" />
         </div>
       )}
     </div>

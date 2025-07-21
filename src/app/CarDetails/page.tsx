@@ -160,7 +160,7 @@ export default function CarDetails() {
             <TbManualGearbox className="text-base text-gray-500 min-w-[16px]" />
             <span>Automatic</span>
           </div>
-          <div className="bg-gray-100 p-5 rounded-lg p-5 flex flex-col space-y-4">
+          <div className="bg-gray-100 p-5 rounded-lg flex flex-col space-y-4">
             <div className="flex items-center space-x-4 p-3  rounded-lg ">
               <Image
                 src="/images/seller.jpg"

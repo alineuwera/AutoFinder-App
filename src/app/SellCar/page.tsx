@@ -3,20 +3,11 @@
 import { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { FiHeart } from "react-icons/fi";
-import { PiBellRingingLight } from "react-icons/pi";
-import { HiArrowsRightLeft } from "react-icons/hi2";
-import { TbManualGearbox } from "react-icons/tb";
-import UploadImage from "@/components/UploadImage";
 import {
-  MapPin,
-  Gauge,
-  Fuel,
   Eye,
   Briefcase,
   User,
   CameraIcon,
-  Upload,
 } from "lucide-react";
 import AuthContext from "@/context/auth-context";
 
@@ -25,7 +16,7 @@ type FeatureKey =
   | "multiZoneAC"
   | "adjustableSteeringWheel"
   | "autoDimmingRearviewMirror"
-  | "climateControl"
+  | "climateControl" 
   | "driverAdjustableLumbar"
   | "heatedFrontSeats"
   | "intermittentWipers"
@@ -44,7 +35,7 @@ export default function SellCarPage() {
 
   const [role, setRole] = useState("private");
   const [condition, setCondition] = useState("new");
-  const [uploading, setUploading] = useState(false);
+  const [uploading] = useState(false);
   const [uploadedImages, setUploadedImages] = useState<string[]>([]);
   const [uploadText, setUploadText] = useState("");
   const [imageSelected, setImageSelected] = useState<string | null>(null);
@@ -76,6 +67,19 @@ export default function SellCarPage() {
     interior: true,
     safety: false,
   });
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState(0);
+  const [manufactureDate, setManufactureDate] = useState("");
+  const [location, setLocation] = useState("");
+  const [driveType, setDriveType] = useState("");
+  const [engine, setEngine] = useState("");
+  const [description, setDescription] = useState("");
+  const [brandId, setBrandId] = useState(0);
+  const [bodyTypeId, setBodyTypeId] = useState(0);
+  const token = user?.token;
+  const selectedFeatures = Object.entries(features)
+    .filter(([_key, value]) => value)
+    .map(([key]) => key);
 
   useEffect(() => {
     if (!user) {
@@ -98,8 +102,58 @@ export default function SellCarPage() {
     return <div className="p-4 text-center">Redirecting to login...</div>;
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const carData = {
+      id: 0,
+      name,
+      price,
+      manufactureDate,
+      location,
+      features: selectedFeatures,
+      images: uploadedImages,
+      driveType,
+      engine,
+      description,
+      brandId,
+      bodyTypeId,
+      ownerId: user?.id || 0,
+      condition,
+    };
+
+    try {
+      console.log("Sending this to backend:", carData);
+      const response = await fetch("https://carfinder-894g.onrender.com/api/cars", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(carData),
+      });
+
+      const contentType = response.headers.get("content-type");
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Backend error:", errorText);
+        alert("Failed to save car.");
+        return;
+      }
+
+      if (contentType && contentType.includes("application/json")) {
+        const result = await response.json();
+        console.log("Success:", result);
+        alert("Car successfully published!");
+      } else {
+        console.warn("Response is not JSON");
+        alert("Car saved, but backend didn’t return JSON.");
+      }
+    } catch (error) {
+      console.error("Network or JSON error:", error);
+      alert("Something went wrong.");
+    }
   };
 
   const toggleCategory = (category: CategoryKey) => {
@@ -142,18 +196,19 @@ export default function SellCarPage() {
           setUploadText("Uploaded ✅");
         } else {
           console.error("Upload failed:", data.error);
-          setUploadText("Upload failed ❌");
+          setUploadText("Upload failed");
         }
       } else {
         const errorText = await res.text();
         console.error("Non-JSON error:", errorText);
-        setUploadText("Upload failed ❌");
+        setUploadText("Upload failed");
       }
     } catch (err) {
       console.error("Error uploading:", err);
-      setUploadText("Upload error ❌");
+      setUploadText("Upload error");
     }
   };
+
 
   return (
     <div className="flex flex-col lg:flex-row items-start justify-center min-h-screen bg-gray-100 p-6 gap-6 w-full">
@@ -941,6 +996,7 @@ export default function SellCarPage() {
           <button
             type="submit"
             className="flex items-center gap-2 bg-red-500 text-white px-6 py-3 rounded-md hover:bg-red-600"
+            onClick={handleSubmit}
           >
             <Image
               src="/images/save.png" // Ensure this path is correct in your public directory
@@ -950,78 +1006,6 @@ export default function SellCarPage() {
             />{" "}
             Save and publish
           </button>
-        </div>
-
-        {/* QUICK PREVIEW */}
-        <div className="lg:max-w-s">
-          <div className="bg-white rounded-lg shadow p-4 space-y-4 mt-32 ml-5">
-            <h2 className="text-sm font-semibold">Quick Preview</h2>
-            <div className="rounded-lg overflow-hidden relative">
-              <Image
-                src="/images/suv.jpg"
-                alt="Preview Car"
-                width={300}
-                height={200}
-                className="object-cover w-full h-40"
-              />
-              <span className="absolute top-2 left-2 bg-orange-500 text-white text-xs px-2 py-1 rounded">
-                Used
-              </span>
-            </div>
-            <div>
-              <div className="flex items-center justify-between text-xs text-gray-500 mb-1">
-                <span>15/07/2024</span>
-                <div className="flex space-x-2">
-                  <button className="w-6 h-6 sm:w-7 sm:h-7 rounded-full border border-gray-200 flex items-center justify-center">
-                    <FiHeart className="text-gray-600 text-xs sm:text-sm" />
-                  </button>
-                  <button className="w-6 h-6 sm:w-7 sm:h-7 rounded-full border border-gray-200 flex items-center justify-center">
-                    <PiBellRingingLight className="text-gray-600 text-xs sm:text-sm" />
-                  </button>
-                  <button className="w-6 h-6 sm:w-7 sm:h-7 rounded-full border border-gray-200 flex items-center justify-center">
-                    <HiArrowsRightLeft className="text-gray-600 text-xs sm:text-sm" />
-                  </button>
-                </div>
-              </div>
-              <h3 className="font-semibold text-gray-800">
-                Mercedes-Benz A205{" "}
-                <span className="text-gray-400 font-normal text-xs sm:text-sm">
-                  (2021)
-                </span>
-              </h3>
-              <p className="text-sm font-semibold p-2">$41,900</p>
-              <hr className="border-gray-200 mb-4" />
-              <div className="flex items-center gap-2 text-gray-600 text-sm">
-                <div className="flex items-center gap-1">
-                  <MapPin className="w-3 h-3 sm:w-4 sm:h-4" />
-                  <span>Chicago</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <Gauge className="w-3 h-3 sm:w-4 sm:h-4" />
-                  <span>---</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <Fuel className="w-3 h-3 sm:w-4 sm:h-4" />
-                  <span>Gasoline</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <TbManualGearbox className="w-3 h-3 sm:w-4 sm:h-4" />
-                  <span>Automatic</span>
-                </div>
-              </div>
-              <div className="mt-4 bg-white p-2 rounded flex flex-col">
-                <span className="text-gray-800 font-medium mb-3">
-                  The quality of content
-                </span>
-                <div className="w-full bg-gray-200 rounded-full h-1.5">
-                  <div
-                    className="bg-orange-500 h-1.5 rounded-full"
-                    style={{ width: "75%" }}
-                  ></div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>

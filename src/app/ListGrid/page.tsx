@@ -211,6 +211,8 @@ const CarCard = React.memo(
               <Image
                 src={car.image}
                 alt={car.name}
+                width={200}
+                height={200}
                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                 loading="lazy"
               />
@@ -283,6 +285,8 @@ const CarCard = React.memo(
               <Image
                 src={car.image}
                 alt={car.name}
+                width={200}
+                height={200}
                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                 loading="lazy"
               />
