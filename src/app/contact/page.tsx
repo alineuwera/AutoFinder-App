@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 
 type FormData = {
   name: string;
@@ -17,8 +17,6 @@ type FormErrors = {
 };
 
 const Contact: React.FC = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLElement | null>(null);
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
@@ -27,23 +25,6 @@ const Contact: React.FC = () => {
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsVisible(entry.isIntersecting);
-      },
-      { threshold: 0.1 }
-    );
-
-    const currentRef = sectionRef.current;
-    if (currentRef) observer.observe(currentRef);
-
-    return () => {
-      if (currentRef) observer.unobserve(currentRef);
-      observer.disconnect();
-    };
-  }, []);
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -114,7 +95,6 @@ const Contact: React.FC = () => {
 
   return (
     <section
-      ref={sectionRef}
       id="contact"
       className="relative py-20 flex items-center justify-center p-6 scroll-mt-20 text-black overflow-hidden bg-white"
     >
@@ -122,21 +102,21 @@ const Contact: React.FC = () => {
 
       <div className="relative z-10 w-full max-w-6xl">
         <div className="text-center">
-          <h2 className={`text-3xl font-bold relative inline-block transform transition-all duration-1000 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}>
+          <h2 className="text-3xl font-bold relative inline-block">
             <span className="relative inline-block">
               Contact Me
-              <div className="absolute -bottom-1 left-0 w-36 h-1 bg-gradient-to-r from-[#3D7A81] to-transparent rounded-full animate-expand"></div>
+              <div className="absolute -bottom-1 left-0 w-36 h-1 bg-gradient-to-r from-[#3D7A81] to-transparent rounded-full" />
             </span>
           </h2>
         </div>
 
-        <p className={`text-gray-600 mt-4 max-w-xl mx-auto text-center transform duration-1000 delay-200 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}>
+        <p className="text-gray-600 mt-4 max-w-xl mx-auto text-center">
           Ready to bring your innovation to life? Reach out to me!
         </p>
 
         <div className="flex flex-col md:flex-row gap-12 mt-14">
           <div className="md:w-3/5">
-            <h3 className={`text-xl font-bold text-gray-800 mb-6 transform transition-all duration-1000 delay-400 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}>
+            <h3 className="text-xl font-bold text-gray-800 mb-6">
               Let&#39;s Connect!
             </h3>
 
@@ -144,19 +124,19 @@ const Contact: React.FC = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label htmlFor="name" className="block text-gray-700 mb-2 font-medium">Full Name</label>
-                  <input id="name" name="name" value={formData.name} onChange={handleInputChange} className="w-full p-3 border border-gray-300 rounded-lg bg-white text-black focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="John Doe" />
+                  <input id="name" name="name" value={formData.name} onChange={handleInputChange} className="w-full p-3 border border-gray-300 rounded-lg bg-white text-black focus:outline-none focus:ring-2 focus:ring-[#3D7A81]" placeholder="John Doe" />
                   {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
                 </div>
                 <div>
                   <label htmlFor="email" className="block text-gray-700 mb-2 font-medium">Email Address</label>
-                  <input id="email" name="email" type="email" value={formData.email} onChange={handleInputChange} className="w-full p-3 border border-gray-300 rounded-lg bg-white text-black focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="example@gmail.com" />
+                  <input id="email" name="email" type="email" value={formData.email} onChange={handleInputChange} className="w-full p-3 border border-gray-300 rounded-lg bg-white text-black focus:outline-none focus:ring-2 focus:ring-[#3D7A81]" placeholder="example@gmail.com" />
                   {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
                 </div>
               </div>
 
               <div>
                 <label htmlFor="subject" className="block text-gray-700 mb-2 font-medium">Subject</label>
-                <input id="subject" name="subject" value={formData.subject} onChange={handleInputChange} className="w-full p-3 border border-gray-300 rounded-lg bg-white text-black focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="Your project" />
+                <input id="subject" name="subject" value={formData.subject} onChange={handleInputChange} className="w-full p-3 border border-gray-300 rounded-lg bg-white text-black focus:outline-none focus:ring-2 focus:ring-[#3D7A81]" placeholder="Your project" />
                 {errors.subject && <p className="text-red-500 text-sm mt-1">{errors.subject}</p>}
               </div>
 
@@ -167,9 +147,9 @@ const Contact: React.FC = () => {
                   name="message"
                   value={formData.message}
                   onChange={handleInputChange}
-                  className="w-full p-3 border border-gray-300 rounded-lg bg-white text-black focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="w-full p-3 border border-gray-300 rounded-lg bg-white text-black focus:outline-none focus:ring-2 focus:ring-[#3D7A81]"
                   rows={5}
-                  placeholder="Share your thoughts ..." // ✅ Updated placeholder
+                  placeholder="Share your thoughts ..."
                 />
                 {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message}</p>}
               </div>
