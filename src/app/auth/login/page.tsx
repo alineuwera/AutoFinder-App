@@ -2,7 +2,6 @@
 
 import React, { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import AuthContext from "@/context/auth-context"; // ✅ Import context
 
@@ -13,7 +12,7 @@ type FormData = {
 
 export default function LoginPage() {
   const router = useRouter();
-  const { login, user } = useContext(AuthContext); // ✅ Use context
+  const { login } = useContext(AuthContext); // ✅ Use context
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
@@ -30,7 +29,7 @@ export default function LoginPage() {
         router.push("/admin/dashboard");
       }
     }
-  }, []);
+  }, [router]);
 
   const onSubmit = async (data: FormData) => {
     setIsLoading(true);

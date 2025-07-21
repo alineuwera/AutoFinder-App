@@ -4,9 +4,11 @@ import React, { createContext, useState, useEffect, PropsWithChildren } from "re
 import { useRouter } from "next/navigation";
 
 interface User {
+  id: number;
   name: string;
   email: string;
   profilePic?: string;
+  token?: string; // Optional token for authentication
 }
 
 const AuthContext = createContext<{
